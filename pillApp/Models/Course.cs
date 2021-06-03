@@ -1,10 +1,10 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace pillApp.Models
 {
-
     public enum eCourseType
     {
         PILL,       // таблетка
@@ -21,6 +21,17 @@ namespace pillApp.Models
         DAYS_OF_WEAK,   // определённые дни недели
         EVERY_N_DAY,    // через каждый N дней
     }
+    [Flags]
+    public enum eDaysOfWeek
+    {
+        SUN = 0,
+        MON = 1,
+        TUE = 2,
+        WED = 4,
+        THU = 8,
+        FRI = 16,
+        SAT = 32,
+    }
     public enum eCourseDuration
     {
         ENDLESS,        // постоянно
@@ -35,14 +46,19 @@ namespace pillApp.Models
     }
     public class Course
     {
-        public string id { get; set; }
-        public eFoodDependency foodDependency { get; set; }
+        [PrimaryKey, AutoIncrement]
+        public Guid ID { get; set; }
+        public eFoodDependency FoodDependency { get; set; }
         public eCourseType CourseType { get; set; }
         public eCourseFreq CourseFreq { get; set; }
-        public DateTime StartDate { get; set; }
+        public eDaysOfWeek DaysOfWeek { get; set; }
         public int ReceptionCountInDay { get; set; }
         public int Duration { get; set; }
         public float ReceptionValue { get; set; }
+        public string ReceptionUnit { get; set; }
         public string Name { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime LastFetchDate { get; set; }
     }
+
 }

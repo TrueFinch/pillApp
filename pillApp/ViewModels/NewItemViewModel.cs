@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace pillApp.ViewModels
 {
-    public class NewItemViewModel : BaseViewModel
+    public class NewItemViewModel : BaseViewModel<Item>
     {
         private string text;
         private string description;
@@ -56,7 +56,7 @@ namespace pillApp.ViewModels
                 Description = Description
             };
 
-            await DataStore.AddItemAsync(newItem);
+            await DataStore.AddItem(newItem);
 
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");

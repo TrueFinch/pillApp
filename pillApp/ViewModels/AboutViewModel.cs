@@ -1,11 +1,12 @@
-﻿using System;
+﻿using pillApp.Models;
+using System;
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace pillApp.ViewModels
 {
-    public class AboutViewModel : BaseViewModel
+    public class AboutViewModel : BaseViewModel<Item>
     {
         public AboutViewModel()
         {

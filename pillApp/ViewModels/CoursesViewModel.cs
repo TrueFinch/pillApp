@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 using pillApp.Models;
 using Xamarin.Forms;
 
 namespace pillApp.ViewModels
 {
-    class CoursesViewModel : BaseViewModel
+    class CoursesViewModel : BaseViewModel<Course>
     {
         private Course _selectedCourse;
         public ObservableCollection<Course> Courses { get; }
@@ -20,7 +21,7 @@ namespace pillApp.ViewModels
         {
             Title = "Курсы";
             Courses = new ObservableCollection<Course>();
-            LoadCoursesCommand = new Command(async () => await Exe)
+            LoadCoursesCommand = new Command(async () => await ExecuteLoadCoursesCommand());
         }
 
         async Task ExecuteLoadCoursesCommand()
@@ -29,7 +30,11 @@ namespace pillApp.ViewModels
             try
             {
                 Courses.Clear();
-                var courses = await
+                var courses = await DataStore.GetItemsAsync(true);
+                foreach (var course in courses)
+                {
+                    Courses.Add(course);
+                }
             }
             catch (Exception ex)
             {

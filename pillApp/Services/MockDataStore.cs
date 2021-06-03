@@ -23,7 +23,7 @@ namespace pillApp.Services
             };
         }
 
-        public async Task<bool> AddItemAsync(Item item)
+        public async Task<bool> AddItem(Item item)
         {
             items.Add(item);
 
