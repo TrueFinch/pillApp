@@ -21,11 +21,8 @@ namespace pillApp.Services
                 dbName
             );
             database = new SQLiteConnection(dbPath);
-            if (database.Table<Course>() == null)
-            {
-                database.CreateTable<Course>();
-                database.CreateTable<Reception>();
-            }
+            database.CreateTable<Course>();
+            database.CreateTable<Reception>();
         }
 
         public Task<bool> AddItem(Course item)

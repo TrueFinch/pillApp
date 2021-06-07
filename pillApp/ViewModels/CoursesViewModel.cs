@@ -70,7 +70,10 @@ namespace pillApp.ViewModels
 
         async void OnCourseSelected(Course course)
         {
-
+            if (course == null)
+            {
+                return;
+            }
             throw new NotImplementedException();
             //if (course == null)
             //    return;

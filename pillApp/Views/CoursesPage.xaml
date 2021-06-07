@@ -1,12 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="pillApp.Views.CoursesPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+             x:Class="pillApp.Views.CoursesPage"
+             Title="{Binding Title}"
+             xmlns:local="clr-namespace:pillApp.ViewModels"  
+             xmlns:model="clr-namespace:pillApp.Models"  
+             x:Name="BrowseCoursesPages">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddCourseCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <RefreshView x:DataType="local:CoursesViewModel"
+                 Command="{Binding LoadCoursesCommand}"
+                 IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <CollectionView x:Name="CoursesListView"
+                        ItemsSource="{Binding Courses}"
+                        SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="10"
+                                 x:DataType="model:Item">
+                        <Label Text="{Binding Text}"
+                               LineBreakMode="NoWrap"
+                               Style="{DynamicResource ListItemTextStyle}"
+                               FontSize="16"/>
+                        <Label Text="{Binding Description}" 
+                               LineBreakMode="NoWrap"
+                               Style="{DynamicResource ListItemDetailTextStyle}"
+                               FontSize="13"/>
+                        <StackLayout.GestureRecognizers>
+	                        <TapGestureRecognizer 
+		                        NumberOfTapsRequired="1"
+		                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:ItemsViewModel}}, Path=ItemTapped}"		
+		                        CommandParameter="{Binding .}">
+	                        </TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
 </ContentPage>
