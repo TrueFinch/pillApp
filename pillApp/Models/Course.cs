@@ -44,6 +44,7 @@ namespace pillApp.Models
         BEFORE,
         AFTER,
     }
+    [Table("Courses")]
     public class Course
     {
         [PrimaryKey, AutoIncrement]
@@ -60,5 +61,4 @@ namespace pillApp.Models
         public DateTime StartDate { get; set; }
         public DateTime LastFetchDate { get; set; }
     }
-
 }

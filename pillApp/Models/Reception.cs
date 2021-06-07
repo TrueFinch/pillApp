@@ -5,7 +5,8 @@ using System.Text;
 
 namespace pillApp.Models
 {
-    class Reception
+    [Table("Receptions")]
+    public class Reception
     {
         [PrimaryKey, AutoIncrement]
         public Guid ID { get; set; }
