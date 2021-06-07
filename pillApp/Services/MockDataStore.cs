@@ -30,7 +30,7 @@ namespace pillApp.Services
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> UpdateItemAsync(Item item)
+        public async Task<bool> UpdateItem(Item item)
         {
             var oldItem = items.Where((Item arg) => arg.Id == item.Id).FirstOrDefault();
             items.Remove(oldItem);
@@ -39,7 +39,7 @@ namespace pillApp.Services
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> DeleteItemAsync(string id)
+        public async Task<bool> DeleteItem(string id)
         {
             var oldItem = items.Where((Item arg) => arg.Id == id).FirstOrDefault();
             items.Remove(oldItem);
@@ -47,12 +47,12 @@ namespace pillApp.Services
             return await Task.FromResult(true);
         }
 
-        public async Task<Item> GetItemAsync(string id)
+        public async Task<Item> GetItem(string id)
         {
             return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
         }
 
-        public async Task<IEnumerable<Item>> GetItemsAsync(bool forceRefresh = false)
+        public async Task<IEnumerable<Item>> GetItems(bool forceRefresh = false)
         {
             return await Task.FromResult(items);
         }

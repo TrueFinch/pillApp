@@ -30,7 +30,7 @@ namespace pillApp.ViewModels
             try
             {
                 Courses.Clear();
-                var courses = await DataStore.GetItemsAsync(true);
+                var courses = await DataStore.GetItems(true);
                 foreach (var course in courses)
                 {
                     Courses.Add(course);

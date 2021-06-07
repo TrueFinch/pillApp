@@ -42,22 +42,22 @@ namespace pillApp.Services
             return Task.FromResult(true);
         }
 
-        public Task<bool> DeleteItemAsync(string id)
+        public Task<bool> DeleteItem(string id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Course> GetItemAsync(string id)
+        public Task<Course> GetItem(string id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Course>> GetItemsAsync(bool forceRefresh = false)
+        public Task<IEnumerable<Course>> GetItems(bool forceRefresh = false)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateItemAsync(Course item)
+        public Task<bool> UpdateItem(Course item)
         {
             throw new NotImplementedException();
         }

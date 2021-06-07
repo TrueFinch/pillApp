@@ -7,9 +7,9 @@ namespace pillApp.Services
     public interface IDataStore<T>
     {
         Task<bool> AddItem(T item);
-        Task<bool> UpdateItemAsync(T item);
-        Task<bool> DeleteItemAsync(string id);
-        Task<T> GetItemAsync(string id);
-        Task<IEnumerable<T>> GetItemsAsync(bool forceRefresh = false);
+        Task<bool> UpdateItem(T item);
+        Task<bool> DeleteItem(string id);
+        Task<T> GetItem(string id);
+        Task<IEnumerable<T>> GetItems(bool forceRefresh = false);
     }
 }
