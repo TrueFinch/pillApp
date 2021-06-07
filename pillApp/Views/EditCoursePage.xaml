@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="pillApp.Views.NewCoursePage"
+             Title="{Binding Title}"
+             xmlns:local="clr-namespace:pillApp.ViewModels"
+             xmlns:model="clr-namespace:pillApp.Models"
+             x:Name="BrowseItemsPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="EditBtn"
+                     Text="Edit" 
+                     Command="{Binding EditCourseCommand}"/>
+        <ToolbarItem x:Name="SaveBtn"
+                     Text="Save" 
+                     Command="{Binding AddCourseCommand}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <Entry Placeholder="Enter name..."
+                       Text="{Binding CourseNameText, Mode=TwoWay}"
+                       FontSize="Medium"
+                       IsReadOnly="{Binding IsReadOnly}"/>
+                <Editor Placeholder="Enter description..."
+                        Text="{Binding CourseDescriptionText, Mode=TwoWay}"
+                        FontSize="Medium"
+                        IsReadOnly="{Binding IsReadOnly}"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

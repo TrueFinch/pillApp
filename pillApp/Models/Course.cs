@@ -58,6 +58,7 @@ namespace pillApp.Models
         public float ReceptionValue { get; set; }
         public string ReceptionUnit { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime LastFetchDate { get; set; }
     }
