@@ -11,9 +11,8 @@ namespace pillApp.Services
     class CoursesDataStore : IDataStore<Course>
     {
         readonly SQLiteConnection database;
-        readonly List<Course> courses;
         readonly List<Reception> receptions;
-        string dbName;
+        string dbName = "pill.db";
         public CoursesDataStore()
         {
             var dbPath = Path.Combine(
@@ -36,7 +35,7 @@ namespace pillApp.Services
             if (item.CourseFreq == eCourseFreq.DAYS_OF_WEAK 
                 || item.CourseFreq == eCourseFreq.EVERY_N_DAY)
             {
-
+                //TODO create many receptions for course
             }
 
             return Task.FromResult(true);
@@ -44,17 +43,19 @@ namespace pillApp.Services
 
         public Task<bool> DeleteItem(string id)
         {
-            throw new NotImplementedException();
+            database.Delete<Course>(id);
+            return Task.FromResult(true);
         }
 
         public Task<Course> GetItem(string id)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(database.Get<Course>(id));
         }
 
         public Task<IEnumerable<Course>> GetItems(bool forceRefresh = false)
         {
-            throw new NotImplementedException();
+            var courses = database.Table<Course>().ToList();
+            return Task.FromResult<IEnumerable<Course>>(courses);
         }
 
         public Task<bool> UpdateItem(Course item)
