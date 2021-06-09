@@ -26,6 +26,21 @@
                         Text="{Binding CourseDescriptionText, Mode=TwoWay}"
                         FontSize="Medium"
                         IsReadOnly="{Binding IsReadOnly}"/>
+                <Picker x:Name="CourseTypePicker"
+                        Title="Course type"
+                        ItemsSource="{Binding CourseTypes}"/>
+                <StackLayout Orientation="Horizontal">
+                    <Label FontSize="Medium"
+                           Text="Count"/>
+                    <Entry Placeholder="0"
+                           Text="{Binding CountText, Mode=TwoWay}"
+                           FontSize="Medium"
+                           IsReadOnly="{Binding IsReadOnly}"/>
+                    <Entry Placeholder="piece"
+                           Text="{Binding ReceptionUnitText}"
+                           FontSize="Medium"
+                           IsReadOnly="{Binding}"/>
+                </StackLayout>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
