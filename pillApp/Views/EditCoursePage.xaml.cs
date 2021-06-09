@@ -1,4 +1,5 @@
-﻿using System;
+﻿using pillApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,11 +11,13 @@ using Xamarin.Forms.Xaml;
 namespace pillApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class NewCoursePage : ContentPage
+    public partial class EditCoursePage : ContentPage
     {
-        public NewCoursePage()
+        EditCourseViewModel _viewModel;
+        public EditCoursePage()
         {
             InitializeComponent();
+            BindingContext = _viewModel = new EditCourseViewModel();
         }
     }
 }

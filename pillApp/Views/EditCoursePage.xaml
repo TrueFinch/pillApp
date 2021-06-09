@@ -1,12 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="pillApp.Views.NewCoursePage"
+             x:Class="pillApp.Views.EditCoursePage"
              Title="{Binding Title}"
              xmlns:local="clr-namespace:pillApp.ViewModels"
              xmlns:model="clr-namespace:pillApp.Models"
-             x:Name="BrowseItemsPage">
+             x:Name="ViewAndEditCoursePage">
 
+	<ContentPage.BindingContext>
+		<local:EditCourseViewModel />
+	</ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="EditBtn"
                      Text="Edit" 
@@ -28,8 +31,10 @@
                         IsReadOnly="{Binding IsReadOnly}"/>
                 <Picker x:Name="CourseTypePicker"
                         Title="Course type"
-                        ItemsSource="{Binding CourseTypes}"/>
-                <StackLayout Orientation="Horizontal">
+                        ItemsSource="{Binding CourseTypes}"
+                        IsEnabled="{Binding IsNotReadOnly}"/>
+                <StackLayout Orientation="Horizontal"
+                             IsEnabled="{Binding IsNotReadOnly}">
                     <Label FontSize="Medium"
                            Text="Count"/>
                     <Entry Placeholder="0"
@@ -39,8 +44,11 @@
                     <Entry Placeholder="piece"
                            Text="{Binding ReceptionUnitText}"
                            FontSize="Medium"
-                           IsReadOnly="{Binding}"/>
+                           IsReadOnly="{Binding IsReadOnly}"/>
                 </StackLayout>
+                <Picker x:Name="CourseFreqPicker"
+                        Title="Course frequency"
+                        ItemsSource="{Binding CourseFreqs}"/>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

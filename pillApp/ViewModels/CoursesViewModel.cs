@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using pillApp.Models;
+using pillApp.Views;
 using Xamarin.Forms;
 
 namespace pillApp.ViewModels
@@ -22,6 +23,7 @@ namespace pillApp.ViewModels
             Title = "Курсы";
             Courses = new ObservableCollection<Course>();
             LoadCoursesCommand = new Command(async () => await ExecuteLoadCoursesCommand());
+            AddCourseCommand = new Command(OnAddCourse);
         }
 
         async Task ExecuteLoadCoursesCommand()
@@ -64,8 +66,7 @@ namespace pillApp.ViewModels
 
         private async void OnAddCourse(object obj)
         {
-            throw new NotImplementedException();
-            //await Shell.Current.GoToAsync(nameof(NewItemPage));
+            await Shell.Current.GoToAsync(nameof(EditCoursePage));
         }
 
         async void OnCourseSelected(Course course)
@@ -74,12 +75,8 @@ namespace pillApp.ViewModels
             {
                 return;
             }
-            throw new NotImplementedException();
-            //if (course == null)
-            //    return;
-
-            //// This will push the ItemDetailPage onto the navigation stack
-            //await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
+            //// This will push the EditCoursePage onto the navigation stack
+            await Shell.Current.GoToAsync($"{nameof(EditCoursePage)}?{nameof(EditCourseViewModel.Course)}={_selectedCourse}");
         }
     }
 }
