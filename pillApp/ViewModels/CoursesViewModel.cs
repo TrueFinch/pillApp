@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace pillApp.ViewModels
 {
-    class CoursesViewModel : BaseViewModel<Course>
+    class CoursesViewModel : BaseViewModel
     {
         private Course _selectedCourse;
         public ObservableCollection<Course> Courses { get; }
@@ -30,7 +30,7 @@ namespace pillApp.ViewModels
             try
             {
                 Courses.Clear();
-                var courses = await DataStore.GetItems(true);
+                var courses = await CoursesDataStore.GetItems(true);
                 foreach (var course in courses)
                 {
                     Courses.Add(course);

@@ -8,9 +8,10 @@ using Xamarin.Forms;
 
 namespace pillApp.ViewModels
 {
-    public class BaseViewModel<T> : INotifyPropertyChanged
+    public class BaseViewModel: INotifyPropertyChanged
     {
-        public IDataStore<T> DataStore => DependencyService.Get<IDataStore<T>>();
+        public IDataStore<Course> CoursesDataStore => DependencyService.Get<IDataStore<Course>>();
+        public IDataStore<Reception> ReceptionDataStore => DependencyService.Get<IDataStore<Reception>>();
 
         bool isBusy = false;
         public bool IsBusy

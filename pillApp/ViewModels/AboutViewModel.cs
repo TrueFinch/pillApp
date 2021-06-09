@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace pillApp.ViewModels
 {
-    public class AboutViewModel : BaseViewModel<Item>
+    public class AboutViewModel : BaseViewModel
     {
         public AboutViewModel()
         {
