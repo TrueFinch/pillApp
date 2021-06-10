@@ -11,7 +11,6 @@ namespace pillApp.Services
     class CoursesDataStore : IDataStore<Course>
     {
         readonly SQLiteConnection database;
-        readonly List<Reception> receptions;
         string dbName = "pill.db";
         public CoursesDataStore()
         {
@@ -23,6 +22,9 @@ namespace pillApp.Services
             database = new SQLiteConnection(dbPath);
             database.CreateTable<Course>();
             database.CreateTable<Reception>();
+            _ = database.DeleteAll<Course>();
+            populateData();
+            var list = database.Table<Course>().ToList();
         }
 
         public Task<bool> AddItem(Course item)
@@ -60,23 +62,25 @@ namespace pillApp.Services
             throw new NotImplementedException();
         }
 
-        //private void populateData()
-        //{
-        //    var course1 = new Course {
-        //        ID = 0,
-        //        Name = "Нурофен",
-        //        CourseType = eCourseType.PILL,
-        //        CourseFreq = eCourseFreq.DAYS_OF_WEAK,
-        //        DaysOfWeek = eDaysOfWeek.MON | eDaysOfWeek.FRI,
-        //        FoodDependency = eFoodDependency.NO_MATTER,
-        //        ReceptionCountInDay = 2,
-        //        Duration = 10,
-        //        ReceptionValue = 1,
-        //        ReceptionUnit = "штука",
-        //        StartDate = DateTime.Now,
-        //        LastFetchDate = DateTime.Now,
-        //    };
-        //    ad
-        //}
+        private void populateData()
+        {
+            var course1 = new Course
+            {
+                ID = new Guid(),
+                Name = "Нурофен",
+                Description = "обезболвающее",
+                CourseType = eCourseType.PILL,
+                CourseFreq = eCourseFreq.DAYS_OF_WEAK,
+                DaysOfWeek = eDaysOfWeek.MON | eDaysOfWeek.FRI,
+                FoodDependency = eFoodDependency.NO_MATTER,
+                ReceptionCountInDay = 2,
+                Duration = 10,
+                ReceptionValue = 1,
+                ReceptionUnit = "штука",
+                StartDate = DateTime.Now,
+                LastFetchDate = DateTime.Now,
+            };
+            database.Insert(course1);
+        }
     }
 }

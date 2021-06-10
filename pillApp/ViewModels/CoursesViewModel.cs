@@ -24,6 +24,7 @@ namespace pillApp.ViewModels
             Courses = new ObservableCollection<Course>();
             LoadCoursesCommand = new Command(async () => await ExecuteLoadCoursesCommand());
             AddCourseCommand = new Command(OnAddCourse);
+            CourseTapped = new Command<Course>(OnCourseSelected);
         }
 
         async Task ExecuteLoadCoursesCommand()
@@ -76,7 +77,7 @@ namespace pillApp.ViewModels
                 return;
             }
             //// This will push the EditCoursePage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(EditCoursePage)}?{nameof(EditCourseViewModel.Course)}={_selectedCourse}");
+            await Shell.Current.GoToAsync($"{nameof(EditCoursePage)}?{nameof(EditCourseViewModel.Course)}={course}");
         }
     }
 }

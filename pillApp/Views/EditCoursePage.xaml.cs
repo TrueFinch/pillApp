@@ -13,11 +13,10 @@ namespace pillApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EditCoursePage : ContentPage
     {
-        EditCourseViewModel _viewModel;
         public EditCoursePage()
         {
             InitializeComponent();
-            BindingContext = _viewModel = new EditCourseViewModel();
+            BindingContext = new EditCourseViewModel();
         }
     }
 }

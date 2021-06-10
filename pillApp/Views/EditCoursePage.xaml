@@ -4,19 +4,20 @@
              x:Class="pillApp.Views.EditCoursePage"
              Title="{Binding Title}"
              xmlns:local="clr-namespace:pillApp.ViewModels"
-             xmlns:model="clr-namespace:pillApp.Models"
-             x:Name="ViewAndEditCoursePage">
+             xmlns:model="clr-namespace:pillApp.Models">
 
-	<ContentPage.BindingContext>
-		<local:EditCourseViewModel />
-	</ContentPage.BindingContext>
+	<!-- <ContentPage.BindingContext> -->
+	<!-- 	<local:EditCourseViewModel /> -->
+	<!-- </ContentPage.BindingContext> -->
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="EditBtn"
                      Text="Edit" 
-                     Command="{Binding EditCourseCommand}"/>
+                     Command="{Binding EditCourseCommand}"
+                     IsEnabled="{Binding IsEdit}"/>
         <ToolbarItem x:Name="SaveBtn"
                      Text="Save" 
-                     Command="{Binding AddCourseCommand}"/>
+                     Command="{Binding AddCourseCommand}"
+                     IsEnabled="{Binding IsView}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView>
