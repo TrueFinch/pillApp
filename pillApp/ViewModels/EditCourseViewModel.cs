@@ -26,13 +26,7 @@ namespace pillApp.ViewModels
         public Command AddCourseCommand { get; set; }
         public EditCourseViewModel()
         {
-            EditCourseCommand = new Command(
-                async () =>
-                {
-                    await Shell.Current.GoToAsync(
-                        $"{nameof(EditCoursePage)}" +
-                        $"?{nameof(CourseID)}={CourseID}");
-                });
+            EditCourseCommand = new Command(OnPressEdit);
             AddCourseCommand = new Command(OnAddCourseAsync);
         }
         public string Name
@@ -164,9 +158,11 @@ namespace pillApp.ViewModels
                 "../..");
         }
 
-        private void OnPressEdit()
+        private async void OnPressEdit()
         {
-            IsView = false;
+            await Shell.Current.GoToAsync(
+                $"{nameof(EditCoursePage)}" +
+                $"?{nameof(CourseID)}={CourseID}");
         }
         //public EditCourseViewModel()
         //{
