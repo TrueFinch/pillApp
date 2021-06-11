@@ -11,47 +11,34 @@
 	<!-- 	<local:EditCourseViewModel /> -->
 	<!-- </ContentPage.BindingContext> -->
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="EditBtn"
-                     Text="Edit" 
-                     Command="{Binding EditCourseCommand}"
-                     IsEnabled="{Binding IsEdit}"/>
         <ToolbarItem x:Name="SaveBtn"
                      Text="Save" 
-                     Command="{Binding AddCourseCommand}"
-                     IsEnabled="{Binding IsView}"/>
+                     Command="{Binding AddCourseCommand}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
                 <Entry Placeholder="Enter name..."
-                       Text="{Binding CourseNameText, Mode=TwoWay}"
-                       FontSize="Medium"
-                       IsReadOnly="{Binding IsView}"/>
+                       Text="{Binding Name, Mode=TwoWay}"
+                       FontSize="Medium"/>
                 <Editor Placeholder="Enter description..."
-                        Text="{Binding CourseDescriptionText, Mode=TwoWay}"
-                        FontSize="Medium"
-                        IsReadOnly="{Binding IsView}"/>
+                        Text="{Binding Description, Mode=TwoWay}"
+                        FontSize="Medium"/>
                 <Picker x:Name="CourseTypePicker"
                         Title="Course type"
                         ItemsSource="{Binding CourseTypes}"
-                        SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
-                        ItemDisplayBinding="{Binding DisplayString}"
-                        IsEnabled="{Binding IsEdit}"/>
+                        SelectedIndex="{Binding CourseTypeSelectedIndex, Mode=TwoWay}"/>
                 <Label FontSize="Medium"
-                       Text="{Binding CourseTypeText}"
-                       IsEnabled="{Binding IsView}"/>
-                <StackLayout Orientation="Horizontal"
-                             IsEnabled="{Binding IsEdit}">
+                       Text="{Binding CourseTypeText}"/>
+                <StackLayout Orientation="Horizontal">
                     <Label FontSize="Medium"
-                           Text="Count"/>
+                           Text="Reception value"/>
                     <Entry Placeholder="0"
-                           Text="{Binding CountText, Mode=TwoWay}"
-                           FontSize="Medium"
-                           IsReadOnly="{Binding IsView}"/>
+                           Text="{Binding ReceptionValue, Mode=TwoWay}"
+                           FontSize="Medium"/>
                     <Entry Placeholder="piece"
                            Text="{Binding ReceptionUnitText, Mode=TwoWay}"
-                           FontSize="Medium"
-                           IsReadOnly="{Binding IsView}"/>
+                           FontSize="Medium"/>
                 </StackLayout>
                 <Picker x:Name="CourseFreqPicker"
                         Title="Course frequency"
