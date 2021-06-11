@@ -4,7 +4,8 @@
              x:Class="pillApp.Views.EditCoursePage"
              Title="{Binding Title}"
              xmlns:local="clr-namespace:pillApp.ViewModels"
-             xmlns:model="clr-namespace:pillApp.Models">
+             xmlns:model="clr-namespace:pillApp.Models" 
+             x:DataType="local:EditCourseViewModel">
 
 	<!-- <ContentPage.BindingContext> -->
 	<!-- 	<local:EditCourseViewModel /> -->
@@ -25,27 +26,32 @@
                 <Entry Placeholder="Enter name..."
                        Text="{Binding CourseNameText, Mode=TwoWay}"
                        FontSize="Medium"
-                       IsReadOnly="{Binding IsReadOnly}"/>
+                       IsReadOnly="{Binding IsView}"/>
                 <Editor Placeholder="Enter description..."
                         Text="{Binding CourseDescriptionText, Mode=TwoWay}"
                         FontSize="Medium"
-                        IsReadOnly="{Binding IsReadOnly}"/>
+                        IsReadOnly="{Binding IsView}"/>
                 <Picker x:Name="CourseTypePicker"
                         Title="Course type"
                         ItemsSource="{Binding CourseTypes}"
-                        IsEnabled="{Binding IsNotReadOnly}"/>
+                        SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
+                        ItemDisplayBinding="{Binding DisplayString}"
+                        IsEnabled="{Binding IsEdit}"/>
+                <Label FontSize="Medium"
+                       Text="{Binding CourseTypeText}"
+                       IsEnabled="{Binding IsView}"/>
                 <StackLayout Orientation="Horizontal"
-                             IsEnabled="{Binding IsNotReadOnly}">
+                             IsEnabled="{Binding IsEdit}">
                     <Label FontSize="Medium"
                            Text="Count"/>
                     <Entry Placeholder="0"
                            Text="{Binding CountText, Mode=TwoWay}"
                            FontSize="Medium"
-                           IsReadOnly="{Binding IsReadOnly}"/>
+                           IsReadOnly="{Binding IsView}"/>
                     <Entry Placeholder="piece"
-                           Text="{Binding ReceptionUnitText}"
+                           Text="{Binding ReceptionUnitText, Mode=TwoWay}"
                            FontSize="Medium"
-                           IsReadOnly="{Binding IsReadOnly}"/>
+                           IsReadOnly="{Binding IsView}"/>
                 </StackLayout>
                 <Picker x:Name="CourseFreqPicker"
                         Title="Course frequency"

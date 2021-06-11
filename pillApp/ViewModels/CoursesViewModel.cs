@@ -67,7 +67,11 @@ namespace pillApp.ViewModels
 
         private async void OnAddCourse(object obj)
         {
-            await Shell.Current.GoToAsync(nameof(EditCoursePage));
+            await Shell.Current.GoToAsync(
+                $"nameof(EditCoursePage)" +
+                $"?{nameof(EditCourseViewModel.CourseID)}={string.Empty}" +
+                $"&{nameof(EditCourseViewModel.PageMode)}=EDIT"
+            );
         }
 
         async void OnCourseSelected(Course course)
@@ -77,7 +81,11 @@ namespace pillApp.ViewModels
                 return;
             }
             //// This will push the EditCoursePage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(EditCoursePage)}?{nameof(EditCourseViewModel.Course)}={course}");
+            await Shell.Current.GoToAsync(
+                $"{nameof(EditCoursePage)}" +
+                $"?{nameof(EditCourseViewModel.CourseID)}={course.ID}" + 
+                $"&{nameof(EditCourseViewModel.PageMode)}=VIEW"
+            );
         }
     }
 }
