@@ -83,16 +83,6 @@ namespace pillApp.ViewModels
             get => _courseFreqSelectedIndex;
             set => SetProperty(ref _courseFreqSelectedIndex, value);
         }
-        public bool IsView
-        {
-            get => _isView;
-            set => SetProperty(ref _isView, value);
-        }
-        public bool IsEdit
-        {
-            get => !_isView;
-            set => SetProperty(ref _isView, !value);
-        }
         public string ReceptionCountInDay
         {
             get => _receptionCountInDay.ToString();
