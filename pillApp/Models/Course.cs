@@ -18,19 +18,7 @@ namespace pillApp.Models
     public enum eCourseFreq
     {
         EVERYDAY,       // каждый день
-        DAYS_OF_WEEK,   // определённые дни недели
         EVERY_N_DAY,    // через каждый N дней
-    }
-    [Flags]
-    public enum eDaysOfWeek
-    {
-        SUN = 0,
-        MON = 1,
-        TUE = 2,
-        WED = 4,
-        THU = 8,
-        FRI = 16,
-        SAT = 32,
     }
     public enum eCourseDuration
     {
@@ -42,6 +30,7 @@ namespace pillApp.Models
     {
         NO_MATTER,
         BEFORE,
+        WHILE,
         AFTER,
     }
     [Table("Courses")]
@@ -49,16 +38,16 @@ namespace pillApp.Models
     {
         [PrimaryKey, AutoIncrement]
         public Guid ID { get; set; }
-        public eFoodDependency FoodDependency { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         public eCourseType CourseType { get; set; }
         public eCourseFreq CourseFreq { get; set; }
-        public eDaysOfWeek DaysOfWeek { get; set; }
+        public eCourseDuration CourseDuration { get; set; }
+        public eFoodDependency FoodDependency { get; set; }
+        public int CourseFreqDays { get; set; }
         public int ReceptionCountInDay { get; set; }
         public int Duration { get; set; }
         public float ReceptionValue { get; set; }
-        //public string ReceptionUnit { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime LastFetchDate { get; set; }
     }

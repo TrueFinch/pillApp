@@ -33,8 +33,7 @@ namespace pillApp.Services
         {
             var rowID = new Guid();
             database.Insert(item);
-            if (item.CourseFreq == eCourseFreq.DAYS_OF_WEEK 
-                || item.CourseFreq == eCourseFreq.EVERY_N_DAY)
+            if (item.CourseFreq == eCourseFreq.EVERY_N_DAY)
             {
                 //TODO create many receptions for course
             }
@@ -72,13 +71,11 @@ namespace pillApp.Services
                 Name = "Нурофен",
                 Description = "обезболвающее",
                 CourseType = eCourseType.PILL,
-                CourseFreq = eCourseFreq.DAYS_OF_WEEK,
-                DaysOfWeek = eDaysOfWeek.MON | eDaysOfWeek.FRI,
+                CourseFreq = eCourseFreq.EVERYDAY,
                 FoodDependency = eFoodDependency.NO_MATTER,
                 ReceptionCountInDay = 2,
                 Duration = 10,
                 ReceptionValue = 1,
-                ReceptionUnit = "штука",
                 StartDate = DateTime.Now,
                 LastFetchDate = DateTime.Now,
             };

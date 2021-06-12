@@ -7,12 +7,9 @@
              xmlns:model="clr-namespace:pillApp.Models" 
              x:DataType="local:EditCourseViewModel">
 
-	<!-- <ContentPage.BindingContext> -->
-	<!-- 	<local:EditCourseViewModel /> -->
-	<!-- </ContentPage.BindingContext> -->
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="SaveBtn"
-                     Text="Save" 
+                     Text="Save"
                      Command="{Binding AddCourseCommand}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
@@ -25,24 +22,64 @@
                 <Editor Placeholder="Enter description..."
                         Text="{Binding Description, Mode=TwoWay}"
                         FontSize="Medium"/>
-                <Picker x:Name="CourseTypePicker"
-                        Title="Course type"
-                        ItemsSource="{Binding CourseTypes}"
-                        SelectedIndex="{Binding CourseTypeSelectedIndex, Mode=TwoWay}"/>
                 <StackLayout Orientation="Horizontal">
-                    <Label FontSize="Medium"
-                           Text="Reception value in day: "/>
-                    <Entry Placeholder="0"
-                           Text="{Binding ReceptionValue, Mode=TwoWay}"
+                    <Label Text="Course type: "
                            FontSize="Medium"/>
-                    <!-- <Entry Placeholder="piece" -->
-                    <!--        Text="{Binding ReceptionUnitText, Mode=TwoWay}" -->
-                    <!--        FontSize="Medium"/> -->
+                    <Picker x:Name="CourseTypePicker"
+                            Title="Course type"
+                            ItemsSource="{Binding CourseTypes}"
+                            SelectedIndex="{Binding CourseTypeSelectedIndex, Mode=TwoWay}"/>
                 </StackLayout>
-                <Picker x:Name="CourseFreqPicker"
-                        Title="Course frequency"
-                        ItemsSource="{Binding CourseFreqs}"/>
-                <StackLayout
+                <StackLayout>
+                    <Label Text="Course frequency: "
+                           FontSize="Medium"/>
+                    <Picker x:Name="CourseFreqPicker"
+                            Title="Course frequency"
+                            ItemsSource="{Binding CourseFreqs}"
+                            SelectedIndex="{Binding CourseFreqSelectedIndex, Mode=TwoWay}"/>
+                </StackLayout>
+                <StackLayout IsVisible="{Binding IsFreqNotEveryday}"
+                             Orientation="Horizontal">
+                    <Label FontSize="Medium"
+                           Text="Every"/>
+                    <Entry Placeholder="0"
+                           Text="{Binding CourseFreqDays, Mode=TwoWay}"
+                           FontSize="Medium"
+                           Keyboard="Numeric"/>
+                    <Label FontSize="Medium"
+                           Text="days"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Course duration: "
+                           FontSize="Medium"/>
+	                <Picker Title="Course duration"
+	                        ItemsSource="{Binding CourseDurationTypes}"
+	                        SelectedIndex="{Binding CourseDurationSelectedIndex, Mode=TwoWay}"/>
+                </StackLayout>
+                <StackLayout IsVisible="{Binding IsDurationNotEndless}"
+                             Orientation="Horizontal">
+                    <Label FontSize="Medium"
+                           Text="N = "/>
+                    <Entry Placeholder="1"
+                           Text="{Binding Duration, Mode=TwoWay}"
+                           FontSize="Medium"
+                           Keyboard="Numeric"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Reception per day"
+                           FontSize="Medium"/>
+                    <Entry Placeholder="1"
+                           Text="{Binding ReceptionCountInDay}"
+                           FontSize="Medium"
+                           Keyboard="Numeric"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+	                <Label FontSize="Medium"
+	                       Text="Value per reception: "/>
+	                <Entry Placeholder="0"
+	                       Text="{Binding ReceptionValue, Mode=TwoWay}"
+	                       FontSize="Medium"/>
+                </StackLayout>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

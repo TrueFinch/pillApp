@@ -32,16 +32,28 @@ namespace pillApp.Services
         public static Dictionary<eCourseFreq, string> eCourseFreqToString = 
             new Dictionary<eCourseFreq, string>
             {
-                { eCourseFreq.EVERYDAY    , "Everyday"     },
-                { eCourseFreq.DAYS_OF_WEEK, "Days of week" },
-                { eCourseFreq.EVERY_N_DAY , "Every N day"  },
+                { eCourseFreq.EVERYDAY    , "Everyday"    },
+                { eCourseFreq.EVERY_N_DAY , "Every N day" },
             };
         public static Dictionary<string, eCourseFreq> eCourseFreqFromString = 
             new Dictionary<string, eCourseFreq>
             {
-                { "Everyday"    , eCourseFreq.EVERYDAY     },
-                { "Days of week", eCourseFreq.DAYS_OF_WEEK },
-                { "Every N day" , eCourseFreq.EVERY_N_DAY  },
+                { "Everyday"    , eCourseFreq.EVERYDAY    },
+                { "Every N day" , eCourseFreq.EVERY_N_DAY },
+            };
+        public static Dictionary<eCourseDuration, string> eCourseDurationToString =
+            new Dictionary<eCourseDuration, string>
+            {
+                { eCourseDuration.ENDLESS     , "Endless"      },
+                { eCourseDuration.N_DAYS      , "N days"       },
+                { eCourseDuration.N_RECEPTIONS, "N receptions" },
+            };
+        public static Dictionary<string, eCourseDuration> eCourseDurationFromString =
+            new Dictionary<string, eCourseDuration>
+            {
+                {  "Endless"     , eCourseDuration.ENDLESS      },
+                {  "N days"      , eCourseDuration.N_DAYS       },
+                {  "N receptions", eCourseDuration.N_RECEPTIONS },
             };
     }
 }
