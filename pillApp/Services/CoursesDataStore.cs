@@ -8,7 +8,7 @@ using SQLite;
 
 namespace pillApp.Services
 {
-    class CoursesDataStore : IDataStore<Course>
+    public class CoursesDataStore
     {
         readonly SQLiteConnection database;
         string dbName = "pill.db";
@@ -22,6 +22,7 @@ namespace pillApp.Services
             database = new SQLiteConnection(dbPath);
             database.CreateTable<Course>();
             database.CreateTable<Reception>();
+            database.CreateTable<ReceptionsTime>();
             //TODO comment it on release
             _ = database.DeleteAll<Course>();
             populateData();
@@ -29,27 +30,34 @@ namespace pillApp.Services
             var list = database.Table<Course>().ToList();
         }
 
-        public Task<bool> AddItem(Course item)
+        public void AddItem(Course item, List<TimeSpan> receptionTimes)
         {
-            var rowID = new Guid();
+            var rowID = Guid.NewGuid().ToString();
+            item.ID = rowID;
             database.Insert(item);
+            foreach (var time in receptionTimes)
+            {
+                database.Insert(new ReceptionsTime
+                {
+                    ID = Guid.NewGuid().ToString(),
+                    CourseID = rowID,
+                    Time = time,
+                });
+            }
             if (item.CourseFreq == eCourseFreq.EVERY_N_DAY)
             {
                 //TODO create many receptions for course
             }
-
-            return Task.FromResult(true);
         }
 
-        public Task<bool> DeleteItem(string id)
+        public void DeleteItem(string id)
         {
             database.Delete<Course>(id);
-            return Task.FromResult(true);
         }
 
-        public Task<Course> GetItem(string id)
+        public Course GetItem(string id)
         {
-            return Task.FromResult(database.Get<Course>(id));
+            return database.Get<Course>(id);
         }
 
         public Task<IEnumerable<Course>> GetItems(bool forceRefresh = false)
@@ -58,16 +66,26 @@ namespace pillApp.Services
             return Task.FromResult<IEnumerable<Course>>(courses);
         }
 
-        public Task<bool> UpdateItem(Course item)
+        public Task<bool> UpdateItem(Course item, List<TimeSpan> receptionTimes)
         {
             throw new NotImplementedException();
+        }
+
+        public List<TimeSpan> GetReceptionsTimes(string id)
+        {
+            var times = database.Table<ReceptionsTime>().Where(x => x.CourseID == id).ToList();
+            var res = new List<TimeSpan>();
+            foreach (var time in times)
+            {
+                res.Add(time.Time);
+            }
+            return res;
         }
 
         private void populateData()
         {
             var course1 = new Course
             {
-                ID = new Guid(),
                 Name = "Нурофен",
                 Description = "обезболвающее",
                 CourseType = eCourseType.PILL,
@@ -79,7 +97,13 @@ namespace pillApp.Services
                 StartDate = DateTime.Now,
                 LastFetchDate = DateTime.Now,
             };
-            database.Insert(course1);
+            //database.Insert(course1);
+
+            AddItem(course1, new List<TimeSpan>
+            {
+                new TimeSpan(8, 0, 0),
+                new TimeSpan(18, 0, 0),
+            });
         }
     }
 }
