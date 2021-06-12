@@ -36,8 +36,8 @@ namespace pillApp.Models
     [Table("Courses")]
     public class Course
     {
-        [PrimaryKey, AutoIncrement]
-        public Guid ID { get; set; }
+        [PrimaryKey]
+        public string ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public eCourseType CourseType { get; set; }
