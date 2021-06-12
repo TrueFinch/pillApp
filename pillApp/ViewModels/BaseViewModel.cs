@@ -10,9 +10,7 @@ namespace pillApp.ViewModels
 {
     public class BaseViewModel: INotifyPropertyChanged
     {
-        public IDataStore<Course> CoursesDataStore => DependencyService.Get<IDataStore<Course>>();
-        public IDataStore<Reception> ReceptionDataStore => DependencyService.Get<IDataStore<Reception>>();
-
+        public CoursesDataStore dataStore => DependencyService.Get<CoursesDataStore>();
         bool isBusy = false;
         public bool IsBusy
         {

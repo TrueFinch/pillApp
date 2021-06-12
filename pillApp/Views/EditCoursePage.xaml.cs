@@ -13,10 +13,16 @@ namespace pillApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EditCoursePage : ContentPage
     {
+        EditCourseViewModel vm;
         public EditCoursePage()
         {
             InitializeComponent();
-            BindingContext = new EditCourseViewModel();
+            BindingContext = vm = new EditCourseViewModel();
+        }
+
+        private void TimePicker_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            vm.SortTimePickers();
         }
     }
 }

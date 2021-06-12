@@ -24,15 +24,17 @@
                         FontSize="Medium"/>
                 <StackLayout Orientation="Horizontal">
                     <Label Text="Course type: "
-                           FontSize="Medium"/>
+                           FontSize="Medium"
+                           VerticalOptions="Center"/>
                     <Picker x:Name="CourseTypePicker"
                             Title="Course type"
                             ItemsSource="{Binding CourseTypes}"
                             SelectedIndex="{Binding CourseTypeSelectedIndex, Mode=TwoWay}"/>
                 </StackLayout>
-                <StackLayout>
+                <StackLayout Orientation="Horizontal">
                     <Label Text="Course frequency: "
-                           FontSize="Medium"/>
+                           FontSize="Medium"
+                           VerticalOptions="Center"/>
                     <Picker x:Name="CourseFreqPicker"
                             Title="Course frequency"
                             ItemsSource="{Binding CourseFreqs}"
@@ -41,17 +43,20 @@
                 <StackLayout IsVisible="{Binding IsFreqNotEveryday}"
                              Orientation="Horizontal">
                     <Label FontSize="Medium"
-                           Text="Every"/>
+                           Text="Every"
+                           VerticalOptions="Center"/>
                     <Entry Placeholder="0"
                            Text="{Binding CourseFreqDays, Mode=TwoWay}"
                            FontSize="Medium"
                            Keyboard="Numeric"/>
                     <Label FontSize="Medium"
-                           Text="days"/>
+                           Text="days"
+                           VerticalOptions="Center"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
                     <Label Text="Course duration: "
-                           FontSize="Medium"/>
+                           FontSize="Medium"
+                           VerticalOptions="Center"/>
 	                <Picker Title="Course duration"
 	                        ItemsSource="{Binding CourseDurationTypes}"
 	                        SelectedIndex="{Binding CourseDurationSelectedIndex, Mode=TwoWay}"/>
@@ -59,7 +64,8 @@
                 <StackLayout IsVisible="{Binding IsDurationNotEndless}"
                              Orientation="Horizontal">
                     <Label FontSize="Medium"
-                           Text="N = "/>
+                           Text="N = "
+                           VerticalOptions="Center"/>
                     <Entry Placeholder="1"
                            Text="{Binding Duration, Mode=TwoWay}"
                            FontSize="Medium"
@@ -67,29 +73,37 @@
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
                     <Label Text="Reception per day"
-                           FontSize="Medium"/>
+                           FontSize="Medium"
+                           VerticalOptions="Center"/>
                     <Entry Placeholder="1"
                            Text="{Binding ReceptionCountInDay}"
                            FontSize="Medium"
-                           Keyboard="Numeric"/>
+                           Keyboard="Numeric"
+                           MinimumWidthRequest="30"/>
                 </StackLayout>
-                <CollectionView ItemsSource="{Binding ReceptionTimePickers}">
-                    <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Horizontal"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
+                <Label Text="Receptions times:" FontSize="Medium"/>
+                <CollectionView ItemsSource="{Binding ReceptionTimePickers, Mode=TwoWay}"
+                                ItemsLayout="HorizontalList"
+                                HeightRequest="100">
+	                <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <StackLayout Spacing="20"
-                                         Padding="15"
-                                         BackgroundColor="{StaticResource Primary}">
-                                <TimePicker Time="{Binding Time}"/>
+                            <StackLayout VerticalOptions="Center" 
+                                         x:DataType="local:ReceptionTimePicker">
+	                            <TimePicker Time="{Binding Time}"
+	                                        PropertyChanged="TimePicker_PropertyChanged"/>
                             </StackLayout>
+                            <!-- <StackLayout Spacing="20" -->
+                            <!--              Padding="15" -->
+                            <!--              BackgroundColor="{StaticResource Primary}" -->
+                            <!--              x:DataType="local:ReceptionTimePicker"> -->
+                            <!-- </StackLayout> -->
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
                 <StackLayout Orientation="Horizontal">
 	                <Label FontSize="Medium"
-	                       Text="Value per reception: "/>
+	                       Text="Value per reception: "
+	                       VerticalOptions="Center"/>
 	                <Entry Placeholder="0"
 	                       Text="{Binding ReceptionValue, Mode=TwoWay}"
 	                       FontSize="Medium"/>

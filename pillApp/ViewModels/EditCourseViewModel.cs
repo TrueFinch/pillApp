@@ -3,22 +3,17 @@ using pillApp.Services;
 using pillApp.Views;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using Xamarin.Forms;
+using System.Linq;
 
 namespace pillApp.ViewModels
 {
-    public class CourseTypePickerItem
+    public class ReceptionTimePicker
     {
-        public eCourseType Type;
-        public string DisplayString;
+        public TimeSpan Time { get; set; }
     }
-    public class CourseFreqItem
-    {
-        public eCourseFreq Freq;
-        public string DisplayString;
-    }
-
     [QueryProperty(nameof(CourseID), nameof(CourseID))]
     class EditCourseViewModel : BaseViewModel
     {
@@ -28,6 +23,7 @@ namespace pillApp.ViewModels
         {
             EditCourseCommand = new Command(OnPressEdit);
             AddCourseCommand = new Command(OnAddCourseAsync);
+            ReceptionTimePickers = new ObservableCollection<ReceptionTimePicker>();
         }
         public bool IsFreqNotEveryday
         {
@@ -90,6 +86,14 @@ namespace pillApp.ViewModels
                 return list;
             }
         }
+        public ObservableCollection<ReceptionTimePicker> ReceptionTimePickers
+        {
+            get => _receptionTimePickers;
+            set
+            {
+                SetProperty(ref _receptionTimePickers, value);
+            }
+        }
         public int CourseTypeSelectedIndex
         {
             get => _courseTypeSelectedIndex;
@@ -121,7 +125,41 @@ namespace pillApp.ViewModels
         public string ReceptionCountInDay
         {
             get => _receptionCountInDay.ToString();
-            set => SetProperty(ref _receptionCountInDay, int.Parse(value));
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    return;
+                }
+                var intVal = int.Parse(value);
+                if (intVal > ReceptionTimePickers.Count)
+                {
+                    var count = intVal - ReceptionTimePickers.Count;
+                    for (var i = 0; i < count; ++i)
+                    {
+                        ReceptionTimePickers.Add(new ReceptionTimePicker
+                        {
+                            Time = new TimeSpan(0, 0, 0),
+                        });
+                    }
+                    ReceptionTimePickers = new ObservableCollection<ReceptionTimePicker>(ReceptionTimePickers.OrderBy(x => x.Time).ToList());
+                }
+                else if (intVal < ReceptionTimePickers.Count)
+                {
+                    var count = ReceptionTimePickers.Count - intVal;
+                    for (var i = 0; i < count; ++i)
+                    {
+                        ReceptionTimePickers.RemoveAt(0);
+                    }
+                    ReceptionTimePickers = new ObservableCollection<ReceptionTimePicker>(ReceptionTimePickers.OrderBy(x => x.Time).ToList());
+                }
+                SetProperty(ref _receptionCountInDay, int.Parse(value));
+            }
+        }
+        public string Duration
+        {
+            get => _duration.ToString();
+            set => SetProperty(ref _duration, int.Parse(value));
         }
         public string CourseTypeText
         {
@@ -137,6 +175,7 @@ namespace pillApp.ViewModels
             get => _receptionValue.ToString();
             set => SetProperty(ref _receptionValue, float.Parse(value));
         }
+
         public string CourseID
         {
             get => _courseID;
@@ -149,6 +188,8 @@ namespace pillApp.ViewModels
                 }
             }
         }
+        private ObservableCollection<ReceptionTimePicker> _receptionTimePickers;
+
         private int _courseTypeSelectedIndex;
         private int _courseFreqSelectedIndex;
         private int _courseDurationSelectedIndex;
@@ -173,7 +214,7 @@ namespace pillApp.ViewModels
         {
             try
             {
-                var course = CoursesDataStore.GetItem(_courseID).Result;
+                var course = dataStore.GetItem(_courseID);
 
                 CourseTypeSelectedIndex = CourseTypes.FindIndex(item => item == Globals.eCourseTypeToString[course.CourseType]);
                 //TODO add picker for food dependency
@@ -187,6 +228,12 @@ namespace pillApp.ViewModels
                 Description = course.Description;
                 CourseType = Globals.eCourseTypeToString[course.CourseType];
                 _startDate = DateTime.Now;
+                ReceptionCountInDay = course.ReceptionCountInDay.ToString();
+                var times = dataStore.GetReceptionsTimes(_courseID);
+                for (var i = 0; i < times.Count; ++i)
+                {
+                    ReceptionTimePickers[i].Time = times[i];
+                }
             }
             catch (Exception)
             {
@@ -197,6 +244,14 @@ namespace pillApp.ViewModels
 
         private async void OnAddCourseAsync()
         {
+            if (string.IsNullOrEmpty(_courseID))
+            {
+                //dataStore.AddItem
+            }
+            else
+            {
+                //dataStore.UpdateItem
+            }
             // код создания экземпляра класса Course и его добавление в табличку
             await Shell.Current.GoToAsync("../..");
         }
@@ -206,6 +261,18 @@ namespace pillApp.ViewModels
             await Shell.Current.GoToAsync(
                 $"{nameof(EditCoursePage)}" +
                 $"?{nameof(CourseID)}={CourseID}");
+        }
+        public void SortTimePickers()
+        {
+            var sorted = new ObservableCollection<ReceptionTimePicker>(ReceptionTimePickers.OrderBy(x => x.Time).ToList());
+            for (var i = 0; i < sorted.Count; ++i)
+            {
+                if (ReceptionTimePickers[i].Time != sorted[i].Time)
+                {
+                    ReceptionTimePickers = sorted;
+                    return;
+                }
+            }
         }
         //public EditCourseViewModel()
         //{
