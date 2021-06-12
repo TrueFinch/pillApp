@@ -73,6 +73,20 @@
                            FontSize="Medium"
                            Keyboard="Numeric"/>
                 </StackLayout>
+                <CollectionView ItemsSource="{Binding ReceptionTimePickers}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Horizontal"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Spacing="20"
+                                         Padding="15"
+                                         BackgroundColor="{StaticResource Primary}">
+                                <TimePicker Time="{Binding Time}"/>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
                 <StackLayout Orientation="Horizontal">
 	                <Label FontSize="Medium"
 	                       Text="Value per reception: "/>
