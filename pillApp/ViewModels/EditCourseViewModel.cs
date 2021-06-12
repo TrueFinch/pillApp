@@ -53,19 +53,35 @@ namespace pillApp.ViewModels
             "Injection",
             "Procedure",
         };
-        List<CourseFreqItem> _courseFreqs = new List<CourseFreqItem>
+        List<string> _courseFreqs = new List<string>
         {
-            new CourseFreqItem{ Freq = eCourseFreq.EVERYDAY,     DisplayString = "Everyday"     },
-            new CourseFreqItem{ Freq = eCourseFreq.DAYS_OF_WEAK, DisplayString = "Days of weak" },
-            new CourseFreqItem{ Freq = eCourseFreq.EVERY_N_DAY,  DisplayString = "Every N day"  },
+            "Everyday"    ,
+            "Days of weak",
+            "Every N day" ,
         };
         public List<string> CourseTypes
         {
-            get => _courseTypes;
+            get
+            {
+                var list = new List<string>();
+                foreach( var key in Globals.eCourseTypeFromString.Keys)
+                {
+                    list.Add(key);
+                }
+                return list;
+            }
         }
-        public List<CourseFreqItem> CourseFreqs
+        public List<string> CourseFreqs
         {
-            get => _courseFreqs;
+                        get
+            {
+                var list = new List<string>();
+                foreach( var key in Globals.eCourseFreqFromString.Keys)
+                {
+                    list.Add(key);
+                }
+                return list;
+            }
         }
         public int CourseTypeSelectedIndex
         {

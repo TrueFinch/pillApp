@@ -29,5 +29,19 @@ namespace pillApp.Services
                 { "Injection", eCourseType.INJECTION },
                 { "Procedure", eCourseType.PROCEDURE },
             };
+        public static Dictionary<eCourseFreq, string> eCourseFreqToString = 
+            new Dictionary<eCourseFreq, string>
+            {
+                { eCourseFreq.EVERYDAY    , "Everyday"     },
+                { eCourseFreq.DAYS_OF_WEEK, "Days of week" },
+                { eCourseFreq.EVERY_N_DAY , "Every N day"  },
+            };
+        public static Dictionary<string, eCourseFreq> eCourseFreqFromString = 
+            new Dictionary<string, eCourseFreq>
+            {
+                { "Everyday"    , eCourseFreq.EVERYDAY     },
+                { "Days of week", eCourseFreq.DAYS_OF_WEEK },
+                { "Every N day" , eCourseFreq.EVERY_N_DAY  },
+            };
     }
 }

@@ -22,8 +22,10 @@ namespace pillApp.Services
             database = new SQLiteConnection(dbPath);
             database.CreateTable<Course>();
             database.CreateTable<Reception>();
+            //TODO comment it on release
             _ = database.DeleteAll<Course>();
             populateData();
+            //
             var list = database.Table<Course>().ToList();
         }
 
@@ -31,7 +33,7 @@ namespace pillApp.Services
         {
             var rowID = new Guid();
             database.Insert(item);
-            if (item.CourseFreq == eCourseFreq.DAYS_OF_WEAK 
+            if (item.CourseFreq == eCourseFreq.DAYS_OF_WEEK 
                 || item.CourseFreq == eCourseFreq.EVERY_N_DAY)
             {
                 //TODO create many receptions for course
@@ -70,7 +72,7 @@ namespace pillApp.Services
                 Name = "Нурофен",
                 Description = "обезболвающее",
                 CourseType = eCourseType.PILL,
-                CourseFreq = eCourseFreq.DAYS_OF_WEAK,
+                CourseFreq = eCourseFreq.DAYS_OF_WEEK,
                 DaysOfWeek = eDaysOfWeek.MON | eDaysOfWeek.FRI,
                 FoodDependency = eFoodDependency.NO_MATTER,
                 ReceptionCountInDay = 2,

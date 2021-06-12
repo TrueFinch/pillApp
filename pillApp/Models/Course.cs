@@ -18,7 +18,7 @@ namespace pillApp.Models
     public enum eCourseFreq
     {
         EVERYDAY,       // каждый день
-        DAYS_OF_WEAK,   // определённые дни недели
+        DAYS_OF_WEEK,   // определённые дни недели
         EVERY_N_DAY,    // через каждый N дней
     }
     [Flags]
@@ -56,7 +56,7 @@ namespace pillApp.Models
         public int ReceptionCountInDay { get; set; }
         public int Duration { get; set; }
         public float ReceptionValue { get; set; }
-        public string ReceptionUnit { get; set; }
+        //public string ReceptionUnit { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime StartDate { get; set; }

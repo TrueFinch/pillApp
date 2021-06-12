@@ -17,7 +17,8 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout>
+            <StackLayout Spacing="20"
+                         Padding="15">
                 <Entry Placeholder="Enter name..."
                        Text="{Binding Name, Mode=TwoWay}"
                        FontSize="Medium"/>
@@ -28,21 +29,20 @@
                         Title="Course type"
                         ItemsSource="{Binding CourseTypes}"
                         SelectedIndex="{Binding CourseTypeSelectedIndex, Mode=TwoWay}"/>
-                <Label FontSize="Medium"
-                       Text="{Binding CourseTypeText}"/>
                 <StackLayout Orientation="Horizontal">
                     <Label FontSize="Medium"
-                           Text="Reception value"/>
+                           Text="Reception value in day: "/>
                     <Entry Placeholder="0"
                            Text="{Binding ReceptionValue, Mode=TwoWay}"
                            FontSize="Medium"/>
-                    <Entry Placeholder="piece"
-                           Text="{Binding ReceptionUnitText, Mode=TwoWay}"
-                           FontSize="Medium"/>
+                    <!-- <Entry Placeholder="piece" -->
+                    <!--        Text="{Binding ReceptionUnitText, Mode=TwoWay}" -->
+                    <!--        FontSize="Medium"/> -->
                 </StackLayout>
                 <Picker x:Name="CourseFreqPicker"
                         Title="Course frequency"
                         ItemsSource="{Binding CourseFreqs}"/>
+                <StackLayout
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
