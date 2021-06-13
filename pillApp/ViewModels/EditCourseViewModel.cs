@@ -244,12 +244,27 @@ namespace pillApp.ViewModels
 
         private async void OnAddCourseAsync()
         {
+            var times = new List<TimeSpan>();
+            foreach(var picker in ReceptionTimePickers)
+            {
+                times.Add(picker.Time);
+            }
             if (string.IsNullOrEmpty(_courseID))
             {
+                var newCourse = new Course
+                {
+
+                };
+                dataStore.AddItem(newCourse, times);
                 //dataStore.AddItem
             }
             else
             {
+                var course = new Course
+                {
+
+                };
+                dataStore.UpdateItem(course, times);
                 //dataStore.UpdateItem
             }
             // код создания экземпляра класса Course и его добавление в табличку

@@ -66,9 +66,19 @@ namespace pillApp.Services
             return Task.FromResult<IEnumerable<Course>>(courses);
         }
 
-        public Task<bool> UpdateItem(Course item, List<TimeSpan> receptionTimes)
+        public void UpdateItem(Course item, List<TimeSpan> receptionTimes)
         {
-            throw new NotImplementedException();
+            database.Update(item);
+            database.Table<ReceptionsTime>().Where(x => x.CourseID == item.ID).Delete();
+            foreach (var time in receptionTimes)
+            {
+                database.Insert(new ReceptionsTime
+                {
+                    ID = Guid.NewGuid().ToString(),
+                    CourseID = item.ID,
+                    Time = time,
+                });
+            }
         }
 
         public List<TimeSpan> GetReceptionsTimes(string id)
