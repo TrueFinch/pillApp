@@ -31,7 +31,7 @@
                             ItemsSource="{Binding CourseTypes}"
                             SelectedIndex="{Binding CourseTypeSelectedIndex, Mode=TwoWay}"/>
                 </StackLayout>
-                <StackLayout>
+                <StackLayout Orientation="Horizontal">
                     <Label Text="Food dependency: "
                            FontSize="Medium"
                            VerticalOptions="Center"/>
@@ -51,15 +51,12 @@
                 <StackLayout IsVisible="{Binding IsFreqNotEveryday}"
                              Orientation="Horizontal">
                     <Label FontSize="Medium"
-                           Text="Every"
+                           Text="N = "
                            VerticalOptions="Center"/>
                     <Entry Placeholder="0"
                            Text="{Binding CourseFreqDays, Mode=TwoWay}"
                            FontSize="Medium"
                            Keyboard="Numeric"/>
-                    <Label FontSize="Medium"
-                           Text="days"
-                           VerticalOptions="Center"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
                     <Label Text="Course duration: "

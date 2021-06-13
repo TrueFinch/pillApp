@@ -45,7 +45,6 @@ namespace pillApp.Models
         public eCourseDuration CourseDuration { get; set; }
         public eFoodDependency FoodDependency { get; set; }
         public int CourseFreqDays { get; set; }
-        public int ReceptionCountInDay { get; set; }
         public int Duration { get; set; }
         public float ReceptionValue { get; set; }
         public DateTime StartDate { get; set; }

@@ -310,12 +310,12 @@ namespace pillApp.ViewModels
                     item => item == Globals.eCourseFoodDependencyToString[course.FoodDependency]
                 );
                 CourseFreqDays = course.CourseFreqDays.ToString();
-                ReceptionCountInDay = course.ReceptionCountInDay.ToString();
                 Duration = course.Duration.ToString();
                 ReceptionValue = course.ReceptionValue.ToString();
                 _startDate = DateTime.Now;
                 _lastFetchDate = course.LastFetchDate;
                 var times = dataStore.GetReceptionsTimes(_courseID);
+                ReceptionCountInDay = times.Count.ToString();
                 for (var i = 0; i < times.Count; ++i)
                 {
                     ReceptionTimePickers[i].Time = times[i];
@@ -379,7 +379,6 @@ namespace pillApp.ViewModels
                 CourseDuration = Globals.eCourseDurationFromString[CourseDurationTypes[_courseDurationSelectedIndex]],
                 FoodDependency = Globals.eCourseFoodDependencyFromString[FoodDepTypes[_foodDepSelectedIndex]],
                 CourseFreqDays = _courseFreqDays,
-                ReceptionCountInDay = _receptionCountInDay,
                 Duration = _duration,
                 ReceptionValue = _receptionValue,
                 StartDate = _startDate,
