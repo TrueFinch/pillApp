@@ -48,7 +48,46 @@ namespace pillApp.ViewModels
         public string CourseType
         {
             get => Globals.eCourseTypeToString[_courseType];
-            set => SetProperty(ref _courseType, Globals.eCourseTypeFromString[value]);
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    SetProperty(ref _courseType, Globals.eCourseTypeFromString[value]);
+                }
+            }
+        }
+        public string CourseFreq
+        {
+            get => Globals.eCourseFreqToString[_courseFreq];
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    SetProperty(ref _courseFreq, Globals.eCourseFreqFromString[value]);
+                }
+            }
+        }
+        public string CourseDuration
+        {
+            get => Globals.eCourseDurationToString[_courseDuration];
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    SetProperty(ref _courseDuration, Globals.eCourseDurationFromString[value]);
+                }
+            }
+        }
+        public string FoodDependency
+        {
+            get => Globals.eCourseFoodDependencyToString[_foodDependency];
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    SetProperty(ref _foodDependency, Globals.eCourseFoodDependencyFromString[value]);
+                }
+            }
         }
         public List<string> CourseTypes
         {
@@ -91,7 +130,7 @@ namespace pillApp.ViewModels
             get
             {
                 var list = new List<string>();
-                foreach(var key in Globals.eCourseFoodDependencyFromString.Keys)
+                foreach (var key in Globals.eCourseFoodDependencyFromString.Keys)
                 {
                     list.Add(key);
                 }
@@ -106,13 +145,18 @@ namespace pillApp.ViewModels
         public int CourseTypeSelectedIndex
         {
             get => _courseTypeSelectedIndex;
-            set => SetProperty(ref _courseTypeSelectedIndex, value);
+            set
+            {
+                CourseType = CourseTypes[value];
+                SetProperty(ref _courseTypeSelectedIndex, value);
+            }
         }
         public int CourseFreqSelectedIndex
         {
             get => _courseFreqSelectedIndex;
             set
             {
+                CourseFreq = CourseFreqs[value];
                 IsFreqNotEveryday = _courseFreq != eCourseFreq.EVERYDAY;
                 SetProperty(ref _courseFreqSelectedIndex, value);
             }
@@ -122,6 +166,7 @@ namespace pillApp.ViewModels
             get => _courseDurationSelectedIndex;
             set
             {
+                CourseDuration = CourseDurationTypes[value];
                 IsDurationNotEndless = _courseDuration != eCourseDuration.ENDLESS;
                 SetProperty(ref _courseDurationSelectedIndex, value);
             }
@@ -129,7 +174,11 @@ namespace pillApp.ViewModels
         public int FoodDepSelectedIndex
         {
             get => _foodDepSelectedIndex;
-            set => SetProperty(ref _foodDepSelectedIndex, value);
+            set
+            {
+                FoodDependency = FoodDepTypes[value];
+                SetProperty(ref _foodDepSelectedIndex, value);
+            }
         }
 
         public string CourseFreqDays
@@ -190,11 +239,6 @@ namespace pillApp.ViewModels
                 SetProperty(ref _duration, int.Parse(value));
             }
         }
-        public string ReceptionUnitText
-        {
-            get => _receptionUnit;
-            set => SetProperty(ref _receptionUnit, value);
-        }
         public string ReceptionValue
         {
             get => _receptionValue.ToString();
@@ -228,19 +272,19 @@ namespace pillApp.ViewModels
         private int _foodDepSelectedIndex;
         // course data fields
         private string _courseID;
-        private eFoodDependency _foodDependency;
+        private string _name;
+        private string _description;
         private eCourseType _courseType;
         private eCourseFreq _courseFreq;
         private eCourseDuration _courseDuration;
-        private int _receptionCountInDay;
+        private eFoodDependency _foodDependency;
         private int _courseFreqDays;
+        private int _receptionCountInDay;
         private int _duration;
         private float _receptionValue;
-        private string _receptionUnit;
-        private string _name;
-        private string _description;
         private DateTime _startDate = DateTime.Now;
         private DateTime _lastFetchDate = DateTime.Now;
+        // bools for IsVisible
         private bool _isFreqNotEveryDay;
         private bool _isDurationNotEndless;
 
@@ -269,7 +313,6 @@ namespace pillApp.ViewModels
                 ReceptionCountInDay = course.ReceptionCountInDay.ToString();
                 Duration = course.Duration.ToString();
                 ReceptionValue = course.ReceptionValue.ToString();
-                CourseType = Globals.eCourseTypeToString[course.CourseType];
                 _startDate = DateTime.Now;
                 _lastFetchDate = course.LastFetchDate;
                 var times = dataStore.GetReceptionsTimes(_courseID);
@@ -334,7 +377,7 @@ namespace pillApp.ViewModels
                 CourseType = Globals.eCourseTypeFromString[CourseTypes[_courseTypeSelectedIndex]],
                 CourseFreq = Globals.eCourseFreqFromString[CourseFreqs[_courseFreqSelectedIndex]],
                 CourseDuration = Globals.eCourseDurationFromString[CourseDurationTypes[_courseDurationSelectedIndex]],
-                FoodDependency = Globals.eCourseFoodDependencyFromString[CourseDurationTypes[_courseDurationSelectedIndex]],
+                FoodDependency = Globals.eCourseFoodDependencyFromString[FoodDepTypes[_foodDepSelectedIndex]],
                 CourseFreqDays = _courseFreqDays,
                 ReceptionCountInDay = _receptionCountInDay,
                 Duration = _duration,
