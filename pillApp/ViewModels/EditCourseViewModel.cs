@@ -22,7 +22,7 @@ namespace pillApp.ViewModels
         public EditCourseViewModel()
         {
             EditCourseCommand = new Command(OnPressEdit);
-            AddCourseCommand = new Command(OnAddCourseAsync);
+            AddCourseCommand = new Command(OnSaveCourseAsync);
             ReceptionTimePickers = new ObservableCollection<ReceptionTimePicker>();
         }
         public bool IsFreqNotEveryday
@@ -86,13 +86,22 @@ namespace pillApp.ViewModels
                 return list;
             }
         }
+        public List<string> FoodDepTypes
+        {
+            get
+            {
+                var list = new List<string>();
+                foreach(var key in Globals.eCourseFoodDependencyFromString.Keys)
+                {
+                    list.Add(key);
+                }
+                return list;
+            }
+        }
         public ObservableCollection<ReceptionTimePicker> ReceptionTimePickers
         {
             get => _receptionTimePickers;
-            set
-            {
-                SetProperty(ref _receptionTimePickers, value);
-            }
+            set => SetProperty(ref _receptionTimePickers, value);
         }
         public int CourseTypeSelectedIndex
         {
@@ -104,7 +113,7 @@ namespace pillApp.ViewModels
             get => _courseFreqSelectedIndex;
             set
             {
-                IsFreqNotEveryday = Globals.eCourseFreqFromString[CourseFreqs[value]] != eCourseFreq.EVERYDAY;
+                IsFreqNotEveryday = _courseFreq != eCourseFreq.EVERYDAY;
                 SetProperty(ref _courseFreqSelectedIndex, value);
             }
         }
@@ -113,14 +122,27 @@ namespace pillApp.ViewModels
             get => _courseDurationSelectedIndex;
             set
             {
-                IsDurationNotEndless = Globals.eCourseDurationFromString[CourseDurationTypes[value]] != eCourseDuration.ENDLESS;
+                IsDurationNotEndless = _courseDuration != eCourseDuration.ENDLESS;
+                SetProperty(ref _courseDurationSelectedIndex, value);
             }
+        }
+        public int FoodDepSelectedIndex
+        {
+            get => _foodDepSelectedIndex;
+            set => SetProperty(ref _foodDepSelectedIndex, value);
         }
 
         public string CourseFreqDays
         {
             get => _courseFreqDays.ToString();
-            set => SetProperty(ref _courseFreqDays, int.Parse(value));
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    return;
+                }
+                SetProperty(ref _courseFreqDays, int.Parse(value));
+            }
         }
         public string ReceptionCountInDay
         {
@@ -159,11 +181,14 @@ namespace pillApp.ViewModels
         public string Duration
         {
             get => _duration.ToString();
-            set => SetProperty(ref _duration, int.Parse(value));
-        }
-        public string CourseTypeText
-        {
-            get => CourseTypes[_courseTypeSelectedIndex];
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    return;
+                }
+                SetProperty(ref _duration, int.Parse(value));
+            }
         }
         public string ReceptionUnitText
         {
@@ -173,7 +198,14 @@ namespace pillApp.ViewModels
         public string ReceptionValue
         {
             get => _receptionValue.ToString();
-            set => SetProperty(ref _receptionValue, float.Parse(value));
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    return;
+                }
+                SetProperty(ref _receptionValue, float.Parse(value));
+            }
         }
 
         public string CourseID
@@ -193,12 +225,13 @@ namespace pillApp.ViewModels
         private int _courseTypeSelectedIndex;
         private int _courseFreqSelectedIndex;
         private int _courseDurationSelectedIndex;
-
+        private int _foodDepSelectedIndex;
         // course data fields
         private string _courseID;
         private eFoodDependency _foodDependency;
         private eCourseType _courseType;
         private eCourseFreq _courseFreq;
+        private eCourseDuration _courseDuration;
         private int _receptionCountInDay;
         private int _courseFreqDays;
         private int _duration;
@@ -207,6 +240,7 @@ namespace pillApp.ViewModels
         private string _name;
         private string _description;
         private DateTime _startDate = DateTime.Now;
+        private DateTime _lastFetchDate = DateTime.Now;
         private bool _isFreqNotEveryDay;
         private bool _isDurationNotEndless;
 
@@ -216,19 +250,28 @@ namespace pillApp.ViewModels
             {
                 var course = dataStore.GetItem(_courseID);
 
-                CourseTypeSelectedIndex = CourseTypes.FindIndex(item => item == Globals.eCourseTypeToString[course.CourseType]);
-                //TODO add picker for food dependency
-                //FoodDependency = course.FoodDependency;
-                CourseFreqSelectedIndex = CourseFreqs.FindIndex(item => item == Globals.eCourseFreqToString[course.CourseFreq]);
-                //ReceptionCountInDay = course.ReceptionCountInDay.ToString();
-                //Duration = course.Duration;
-                //ReceptionValue = course.ReceptionValue;
-                //ReceptionUnitText = course.ReceptionUnit;
                 Name = course.Name;
                 Description = course.Description;
+
+                CourseTypeSelectedIndex = CourseTypes.FindIndex(
+                    item => item == Globals.eCourseTypeToString[course.CourseType]
+                );
+                CourseFreqSelectedIndex = CourseFreqs.FindIndex(
+                    item => item == Globals.eCourseFreqToString[course.CourseFreq]
+                );
+                CourseDurationSelectedIndex = CourseDurationTypes.FindIndex(
+                    item => item == Globals.eCourseDurationToString[course.CourseDuration]
+                );
+                FoodDepSelectedIndex = FoodDepTypes.FindIndex(
+                    item => item == Globals.eCourseFoodDependencyToString[course.FoodDependency]
+                );
+                CourseFreqDays = course.CourseFreqDays.ToString();
+                ReceptionCountInDay = course.ReceptionCountInDay.ToString();
+                Duration = course.Duration.ToString();
+                ReceptionValue = course.ReceptionValue.ToString();
                 CourseType = Globals.eCourseTypeToString[course.CourseType];
                 _startDate = DateTime.Now;
-                ReceptionCountInDay = course.ReceptionCountInDay.ToString();
+                _lastFetchDate = course.LastFetchDate;
                 var times = dataStore.GetReceptionsTimes(_courseID);
                 for (var i = 0; i < times.Count; ++i)
                 {
@@ -242,30 +285,22 @@ namespace pillApp.ViewModels
 
         }
 
-        private async void OnAddCourseAsync()
+        private async void OnSaveCourseAsync()
         {
             var times = new List<TimeSpan>();
-            foreach(var picker in ReceptionTimePickers)
+            foreach (var picker in ReceptionTimePickers)
             {
                 times.Add(picker.Time);
             }
             if (string.IsNullOrEmpty(_courseID))
             {
-                var newCourse = new Course
-                {
-
-                };
+                var newCourse = GetCourse();
                 dataStore.AddItem(newCourse, times);
-                //dataStore.AddItem
             }
             else
             {
-                var course = new Course
-                {
-
-                };
+                var course = GetCourse();
                 dataStore.UpdateItem(course, times);
-                //dataStore.UpdateItem
             }
             // код создания экземпляра класса Course и его добавление в табличку
             await Shell.Current.GoToAsync("../..");
@@ -289,16 +324,24 @@ namespace pillApp.ViewModels
                 }
             }
         }
-        //public EditCourseViewModel()
-        //{
-        //    if (_course == null)
-        //    {
-        //        _course = new Course();
-        //        IsView = false;
-        //    } else
-        //    {
-        //        IsView = true;
-        //    }
-        //}
+        private Course GetCourse()
+        {
+            return new Course
+            {
+                ID = string.IsNullOrEmpty(_courseID) ? Guid.NewGuid().ToString() : _courseID,
+                Name = _name,
+                Description = _description,
+                CourseType = Globals.eCourseTypeFromString[CourseTypes[_courseTypeSelectedIndex]],
+                CourseFreq = Globals.eCourseFreqFromString[CourseFreqs[_courseFreqSelectedIndex]],
+                CourseDuration = Globals.eCourseDurationFromString[CourseDurationTypes[_courseDurationSelectedIndex]],
+                FoodDependency = Globals.eCourseFoodDependencyFromString[CourseDurationTypes[_courseDurationSelectedIndex]],
+                CourseFreqDays = _courseFreqDays,
+                ReceptionCountInDay = _receptionCountInDay,
+                Duration = _duration,
+                ReceptionValue = _receptionValue,
+                StartDate = _startDate,
+                LastFetchDate = _lastFetchDate,
+            };
+        }
     }
 }

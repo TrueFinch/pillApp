@@ -31,6 +31,14 @@
                             ItemsSource="{Binding CourseTypes}"
                             SelectedIndex="{Binding CourseTypeSelectedIndex, Mode=TwoWay}"/>
                 </StackLayout>
+                <StackLayout>
+                    <Label Text="Food dependency: "
+                           FontSize="Medium"
+                           VerticalOptions="Center"/>
+                    <Picker Title="Food dependency"
+                            ItemsSource="{Binding FoodDepTypes}"
+                            SelectedIndex="{Binding FoodDepSelectedIndex}"/>
+                </StackLayout>
                 <StackLayout Orientation="Horizontal">
                     <Label Text="Course frequency: "
                            FontSize="Medium"
@@ -84,19 +92,17 @@
                 <Label Text="Receptions times:" FontSize="Medium"/>
                 <CollectionView ItemsSource="{Binding ReceptionTimePickers, Mode=TwoWay}"
                                 ItemsLayout="HorizontalList"
-                                HeightRequest="100">
+                                HeightRequest="60">
 	                <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout VerticalOptions="Center" 
-                                         x:DataType="local:ReceptionTimePicker">
-	                            <TimePicker Time="{Binding Time}"
+                                         x:DataType="local:ReceptionTimePicker"
+                                         BackgroundColor="AliceBlue"
+                                         Padding="5">
+                                <TimePicker Time="{Binding Time}"
+                                            VerticalOptions="CenterAndExpand"
 	                                        PropertyChanged="TimePicker_PropertyChanged"/>
                             </StackLayout>
-                            <!-- <StackLayout Spacing="20" -->
-                            <!--              Padding="15" -->
-                            <!--              BackgroundColor="{StaticResource Primary}" -->
-                            <!--              x:DataType="local:ReceptionTimePicker"> -->
-                            <!-- </StackLayout> -->
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>

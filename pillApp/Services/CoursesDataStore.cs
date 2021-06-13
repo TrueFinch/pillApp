@@ -35,6 +35,7 @@ namespace pillApp.Services
             var rowID = Guid.NewGuid().ToString();
             item.ID = rowID;
             database.Insert(item);
+            //insert reception times per day
             foreach (var time in receptionTimes)
             {
                 database.Insert(new ReceptionsTime

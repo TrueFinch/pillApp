@@ -55,5 +55,21 @@ namespace pillApp.Services
                 {  "N days"      , eCourseDuration.N_DAYS       },
                 {  "N receptions", eCourseDuration.N_RECEPTIONS },
             };
+        public static Dictionary<eFoodDependency, string> eCourseFoodDependencyToString =
+            new Dictionary<eFoodDependency, string>
+            {
+                { eFoodDependency.NO_MATTER, "No matter" },
+                { eFoodDependency.AFTER    , "After"     },
+                { eFoodDependency.BEFORE   , "Before"    },
+                { eFoodDependency.WHILE    , "While"     },
+            };
+        public static Dictionary<string, eFoodDependency> eCourseFoodDependencyFromString =
+            new Dictionary<string, eFoodDependency>
+            {
+                { "No matter", eFoodDependency.NO_MATTER },
+                { "After"    , eFoodDependency.AFTER     },
+                { "Before"   , eFoodDependency.BEFORE    },
+                { "While"    , eFoodDependency.WHILE     },
+            };
     }
 }
