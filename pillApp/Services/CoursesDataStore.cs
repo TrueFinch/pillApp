@@ -174,14 +174,15 @@ namespace pillApp.Services
             //N -  days beetwen receptions (every N day)
             return (((int)(to - from).TotalDays) / N);
         }
-        private void UpdateReceptions(ref Course course, DateTime datePoint)
+        private void UpdateReceptions(ref Course course, DateTime updatedFromDate)
         {
             var recTimes = GetReceptionsTimes(course.ID);
             var courseID = course.ID;
             var recCount = 0;
-            var date = datePoint.Date;
+            var date = updatedFromDate.Date;
+            var courseStart = course.StartDate.Date;
             database.Table<Reception>().Where(
-                x => (x.CourseID == courseID) && (x.DateTime >= date)
+                x => (x.CourseID == courseID) && (((x.DateTime >= date) || (x.DateTime < courseStart)))
             ).Delete();
             DateTime lastDay = course.StartDate.Date;
             var oldRecs = database.Table<Reception>()
@@ -204,7 +205,7 @@ namespace pillApp.Services
                 case eCourseDuration.N_DAYS:
                     var passedDays = CountTotalReceptionsDays(
                         course.StartDate.Date,
-                        datePoint.Date,
+                        updatedFromDate.Date,
                         course.CourseFreqDays);
                     recCount = (course.Duration - passedDays) * recTimes.Count;
                     break;
@@ -212,7 +213,7 @@ namespace pillApp.Services
                     recCount = course.Duration - oldRecs.Count;
                     break;
             }
-            course.LastFetchDate = GenerateReceptions(course, date, recCount, recTimes);
+            course.LastFetchDate = GenerateReceptions(course, lastDay, recCount, recTimes);
         }
         //should be called on course creation
         private void InitReceptions(ref Course course)

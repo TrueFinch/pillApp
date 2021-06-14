@@ -38,7 +38,7 @@ namespace pillApp.ViewModels
         }
         public bool IsNewCourse
         {
-            get => _isNewCourse;
+            get => true;
             set
             {
                 SetProperty(ref _isNewCourse, value);
@@ -335,7 +335,7 @@ namespace pillApp.ViewModels
                 CourseFreqDays = course.CourseFreqDays.ToString();
                 Duration = course.Duration.ToString();
                 ReceptionValue = course.ReceptionValue.ToString();
-                _startDate = DateTime.Now;
+                StartDate = course.StartDate;
                 _lastFetchDate = course.LastFetchDate;
                 var times = dataStore.GetReceptionsTimes(_courseID);
                 ReceptionCountInDay = times.Count.ToString();
@@ -404,7 +404,7 @@ namespace pillApp.ViewModels
                 CourseFreqDays = _courseFreqDays,
                 Duration = _duration,
                 ReceptionValue = _receptionValue,
-                StartDate = _startDate,
+                StartDate = _startDate.Date,
                 LastFetchDate = _lastFetchDate,
             };
         }
