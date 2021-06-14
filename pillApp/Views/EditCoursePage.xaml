@@ -109,7 +109,8 @@
 	                       VerticalOptions="Center"/>
 	                <Entry Placeholder="0"
 	                       Text="{Binding ReceptionValue, Mode=TwoWay}"
-	                       FontSize="Medium"/>
+	                       FontSize="Medium"
+	                       Keyboard="Numeric"/>
                 </StackLayout>
             </StackLayout>
         </ScrollView>

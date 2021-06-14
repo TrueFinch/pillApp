@@ -20,6 +20,7 @@ namespace pillApp.Models
         public string ID { get; set; }
         public string CourseID { get; set; }
         public DateTime DateTime { get; set; }
+        public DateTime ClearDate { get; set; }
         public bool isAccepted { get; set; }
     }
 }

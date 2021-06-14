@@ -292,7 +292,7 @@ namespace pillApp.ViewModels
         {
             try
             {
-                var course = dataStore.GetItem(_courseID);
+                var course = dataStore.GetCourse(_courseID);
 
                 Name = course.Name;
                 Description = course.Description;
@@ -338,12 +338,12 @@ namespace pillApp.ViewModels
             if (string.IsNullOrEmpty(_courseID))
             {
                 var newCourse = GetCourse();
-                dataStore.AddItem(newCourse, times);
+                dataStore.AddCourse(newCourse, times);
             }
             else
             {
                 var course = GetCourse();
-                dataStore.UpdateItem(course, times);
+                dataStore.UpdateCourse(course, times);
             }
             // код создания экземпляра класса Course и его добавление в табличку
             await Shell.Current.GoToAsync("../..");

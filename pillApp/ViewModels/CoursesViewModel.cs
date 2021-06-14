@@ -22,18 +22,18 @@ namespace pillApp.ViewModels
         {
             Title = "Курсы";
             Courses = new ObservableCollection<Course>();
-            LoadCoursesCommand = new Command(async () => await ExecuteLoadCoursesCommand());
+            LoadCoursesCommand = new Command(async () => ExecuteLoadCoursesCommand());
             AddCourseCommand = new Command(OnAddCourse);
             CourseTapped = new Command<Course>(OnCourseSelected);
         }
 
-        async Task ExecuteLoadCoursesCommand()
+        void ExecuteLoadCoursesCommand()
         {
             IsBusy = true;
             try
             {
                 Courses.Clear();
-                var courses = await dataStore.GetItems(true);
+                var courses = dataStore.GetCourses();
                 foreach (var course in courses)
                 {
                     Courses.Add(course);

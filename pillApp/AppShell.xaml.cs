@@ -13,7 +13,6 @@ namespace pillApp
             InitializeComponent();
             Routing.RegisterRoute(nameof(EditCoursePage), typeof(EditCoursePage));
             Routing.RegisterRoute(nameof(CourseDetailPage), typeof(CourseDetailPage));
-            Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
         }
 
     }
