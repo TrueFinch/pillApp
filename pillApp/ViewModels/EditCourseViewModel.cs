@@ -158,6 +158,10 @@ namespace pillApp.ViewModels
             {
                 CourseFreq = CourseFreqs[value];
                 IsFreqNotEveryday = _courseFreq != eCourseFreq.EVERYDAY;
+                if (_courseFreq == eCourseFreq.EVERYDAY)
+                {
+                    CourseFreqDays = "1";
+                }
                 SetProperty(ref _courseFreqSelectedIndex, value);
             }
         }
@@ -278,7 +282,7 @@ namespace pillApp.ViewModels
         private eCourseFreq _courseFreq;
         private eCourseDuration _courseDuration;
         private eFoodDependency _foodDependency;
-        private int _courseFreqDays;
+        private int _courseFreqDays = 1;
         private int _receptionCountInDay;
         private int _duration;
         private float _receptionValue;
