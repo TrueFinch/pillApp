@@ -38,7 +38,7 @@ namespace pillApp.ViewModels
                 {
                     if (course.CourseDuration == eCourseDuration.ENDLESS)
                     {
-                        if (course.LastFetchDate <= CurrentDate)
+                        if (course.LastFetchDate < CurrentDate)
                         {
                             dataStore.FetchReceptions(course, CurrentDate);
                         }

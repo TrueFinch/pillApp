@@ -47,7 +47,7 @@ namespace pillApp.Services
                     Time = time,
                 });
             }
-            GenerateReceptions(ref item);
+            InitReceptions(ref item);
             database.Insert(item);
         }
 
@@ -117,82 +117,105 @@ namespace pillApp.Services
                 CourseFreq = eCourseFreq.EVERYDAY,
                 CourseDuration = eCourseDuration.N_DAYS,
                 FoodDependency = eFoodDependency.NO_MATTER,
+                CourseFreqDays = 2,
                 Duration = 10,
                 ReceptionValue = 1,
                 StartDate = DateTime.Now,
                 LastFetchDate = DateTime.Now,
             };
-            //database.Insert(course1);
-
             AddCourse(course1, new List<TimeSpan>
             {
                 new TimeSpan(8, 0, 0),
                 new TimeSpan(18, 0, 0),
             });
+            var course2 = new Course
+            {
+                Name = "Боль",
+                Description = "Страдание",
+                CourseType = eCourseType.INJECTION,
+                CourseFreq = eCourseFreq.EVERYDAY,
+                CourseFreqDays = 1,
+                CourseDuration = eCourseDuration.ENDLESS,
+                FoodDependency = eFoodDependency.AFTER,
+                ReceptionValue = 100,
+                StartDate = DateTime.Now,
+                LastFetchDate = DateTime.Now,
+            };
+            AddCourse(course2, new List<TimeSpan>
+            {
+                new TimeSpan(12, 0, 0),
+            });
         }
         public void FetchReceptions(Course course, DateTime fetchDate)
         {
-            UpdateReceptions(ref course, fetchDate);
+            if (course.CourseDuration != eCourseDuration.ENDLESS)
+            {
+                return;
+            }
+            var recTimes = GetReceptionsTimes(course.ID);
+            var courseID = course.ID;
+            var recCount = CountTotalReceptionsDays(
+                            course.LastFetchDate.Date,
+                            fetchDate.Date,
+                            course.CourseFreqDays)
+                        * recTimes.Count;
+            course.LastFetchDate = GenerateReceptions(
+                course,
+                course.LastFetchDate.AddDays(course.CourseFreqDays),
+                recCount,
+                recTimes
+            );
             database.Update(course);
 
         }
         private int CountTotalReceptionsDays(DateTime from, DateTime to, int N)
         {
+            //from date not included (but implied that it has receptions)
             //N -  days beetwen receptions (every N day)
             return (((int)(to - from).TotalDays) / N);
         }
         private void UpdateReceptions(ref Course course, DateTime datePoint)
         {
+            var recTimes = GetReceptionsTimes(course.ID);
             var courseID = course.ID;
-            var date = course.CourseDuration != eCourseDuration.ENDLESS ? datePoint.Date : course.LastFetchDate.AddDays(1).Date;
+            var recCount = 0;
+            var date = datePoint.Date;
             database.Table<Reception>().Where(
                 x => (x.CourseID == courseID) && (x.DateTime >= date)
             ).Delete();
-            var recTimes = GetReceptionsTimes(course.ID);
-            var recCount = 0;
+            DateTime lastDay = course.StartDate.Date;
+            var oldRecs = database.Table<Reception>()
+                .Where(x => x.CourseID == courseID)
+                .OrderByDescending(x => x.ClearDate)
+                .ToList();
+            if (oldRecs.Count != 0)
+            {
+                lastDay = oldRecs[0].ClearDate.AddDays(course.CourseFreqDays);
+            }
             switch (course.CourseDuration)
             {
                 case eCourseDuration.ENDLESS:
-                    recCount = CountTotalReceptionsDays(course.LastFetchDate, datePoint.Date, course.CourseFreqDays) * recTimes.Count;
+                    recCount = (CountTotalReceptionsDays(
+                            lastDay.Date,
+                            course.LastFetchDate.Date,
+                            course.CourseFreqDays) + 1)
+                        * recTimes.Count;
                     break;
                 case eCourseDuration.N_DAYS:
-                    recCount = course.Duration * recTimes.Count;
+                    var passedDays = CountTotalReceptionsDays(
+                        course.StartDate.Date,
+                        datePoint.Date,
+                        course.CourseFreqDays);
+                    recCount = (course.Duration - passedDays) * recTimes.Count;
                     break;
                 case eCourseDuration.N_RECEPTIONS:
-                    recCount = course.Duration;
+                    recCount = course.Duration - oldRecs.Count;
                     break;
             }
-            if (course.CourseDuration != eCourseDuration.ENDLESS)
-            {
-                recCount = recCount - database.Table<Reception>().Where(
-                        x => x.CourseID == courseID
-                    ).ToList().Count;
-            }
-            DateTime lastDay = date;
-            while (recCount > 0)
-            {
-                for (var i = 0; i < recTimes.Count && recCount > 0; ++i)
-                {
-                    DateTime newRecTime = lastDay.Date + recTimes[i];
-                    database.Insert(new Reception
-                    {
-                        ID = Guid.NewGuid().ToString(),
-                        CourseID = course.ID,
-                        DateTime = newRecTime,
-                        ClearDate = newRecTime.Date,
-                        isAccepted = newRecTime < DateTime.Now,
-                    }); ;
-                    --recCount;
-                }
-                if (recCount > 0)
-                {
-                    lastDay = lastDay.AddDays(course.CourseFreqDays);
-                }
-            }
-            course.LastFetchDate = lastDay;
+            course.LastFetchDate = GenerateReceptions(course, date, recCount, recTimes);
         }
         //should be called on course creation
-        private void GenerateReceptions(ref Course course)
+        private void InitReceptions(ref Course course)
         {
             var recTimes = GetReceptionsTimes(course.ID);
             var recCount = 0;
@@ -209,6 +232,11 @@ namespace pillApp.Services
                     recCount = course.Duration;
                     break;
             }
+            course.LastFetchDate = GenerateReceptions(course, course.StartDate.Date, recCount, recTimes);
+        }
+        public DateTime GenerateReceptions(Course course, DateTime start, int recCount, List<TimeSpan> recTimes)
+        {
+            DateTime lastDay = start;
             while (recCount > 0)
             {
                 for (var i = 0; i < recTimes.Count && recCount > 0; ++i)
@@ -229,7 +257,8 @@ namespace pillApp.Services
                     lastDay = lastDay.AddDays(course.CourseFreqDays);
                 }
             }
-            course.LastFetchDate = lastDay;
+            // last fetched day (usefull only for endless)
+            return lastDay;
         }
     }
 }
