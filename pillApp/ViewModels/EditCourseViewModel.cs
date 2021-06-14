@@ -24,6 +24,7 @@ namespace pillApp.ViewModels
             EditCourseCommand = new Command(OnPressEdit);
             AddCourseCommand = new Command(OnSaveCourseAsync);
             ReceptionTimePickers = new ObservableCollection<ReceptionTimePicker>();
+            ReceptionCountInDay = "1";
         }
         public bool IsFreqNotEveryday
         {
@@ -34,6 +35,14 @@ namespace pillApp.ViewModels
         {
             get => _isDurationNotEndless;
             set => SetProperty(ref _isDurationNotEndless, value);
+        }
+        public bool IsNewCourse
+        {
+            get => _isNewCourse;
+            set
+            {
+                SetProperty(ref _isNewCourse, value);
+            }
         }
         public string Name
         {
@@ -255,7 +264,14 @@ namespace pillApp.ViewModels
                 SetProperty(ref _receptionValue, float.Parse(value));
             }
         }
-
+        public DateTime StartDate
+        {
+            get => _startDate;
+            set
+            {
+                SetProperty(ref _startDate, value);
+            }
+        }
         public string CourseID
         {
             get => _courseID;
@@ -266,6 +282,8 @@ namespace pillApp.ViewModels
                 {
                     LoadCourse();
                 }
+                IsNewCourse = string.IsNullOrEmpty(value);
+
             }
         }
         private ObservableCollection<ReceptionTimePicker> _receptionTimePickers;
@@ -275,7 +293,7 @@ namespace pillApp.ViewModels
         private int _courseDurationSelectedIndex;
         private int _foodDepSelectedIndex;
         // course data fields
-        private string _courseID;
+        private string _courseID = string.Empty;
         private string _name;
         private string _description;
         private eCourseType _courseType;
@@ -291,6 +309,7 @@ namespace pillApp.ViewModels
         // bools for IsVisible
         private bool _isFreqNotEveryDay;
         private bool _isDurationNotEndless;
+        private bool _isNewCourse;
 
         private void LoadCourse()
         {
