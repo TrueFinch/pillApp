@@ -24,8 +24,8 @@ namespace pillApp.Services
             database.CreateTable<Reception>();
             database.CreateTable<ReceptionsTime>();
             //TODO comment it on release
-            _ = database.DeleteAll<Course>();
-            populateData();
+            //_ = database.DeleteAll<Course>();
+            //populateData();
             //
             var list = database.Table<Course>().ToList();
         }
@@ -102,7 +102,6 @@ namespace pillApp.Services
                 CourseType = eCourseType.PILL,
                 CourseFreq = eCourseFreq.EVERYDAY,
                 FoodDependency = eFoodDependency.NO_MATTER,
-                ReceptionCountInDay = 2,
                 Duration = 10,
                 ReceptionValue = 1,
                 StartDate = DateTime.Now,
