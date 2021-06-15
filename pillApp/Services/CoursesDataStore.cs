@@ -6,14 +6,28 @@ using System.Text;
 using System.Threading.Tasks;
 using pillApp.Models;
 using SQLite;
+using System.Diagnostics;
 
 namespace pillApp.Services
 {
     public class CoursesDataStore
     {
+        public static CoursesDataStore Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new CoursesDataStore();
+                    _instance.populateData();
+                }
+                return _instance;
+            }
+        }
+        private static CoursesDataStore _instance;
         readonly SQLiteConnection database;
         string dbName = "pill.db";
-        public CoursesDataStore()
+        private CoursesDataStore()
         {
             var dbPath = Path.Combine(
                 Environment.GetFolderPath(
@@ -24,13 +38,14 @@ namespace pillApp.Services
             database.CreateTable<Course>();
             database.CreateTable<Reception>();
             database.CreateTable<ReceptionsTime>();
+            database.CreateTable<Notification>();
             //TODO comment it on release
             _ = database.DeleteAll<Course>();
             _ = database.DeleteAll<Reception>();
             _ = database.DeleteAll<ReceptionsTime>();
-            populateData();
+            _ = database.DeleteAll<Notification>();
             //
-            var list = database.Table<Course>().ToList();
+            Debug.WriteLine("CoursesDataStore: Database inited!");
         }
 
         public void AddCourse(Course item, List<TimeSpan> receptionTimes)
@@ -47,8 +62,8 @@ namespace pillApp.Services
                     Time = time,
                 });
             }
-            InitReceptions(ref item);
             database.Insert(item);
+            InitReceptions(ref item);
         }
 
         public void DeleteCourse(string id)
@@ -57,9 +72,13 @@ namespace pillApp.Services
             database.Table<ReceptionsTime>().Where(
                 x => x.CourseID == id
             ).Delete();
-            database.Table<Reception>().Where(
+            var receptions = database.Table<Reception>().Where(
                 x => x.CourseID == id
-            ).Delete();
+            ).ToList();
+            foreach (var rec in receptions)
+            {
+                DeleteReception(rec);
+            }
         }
 
         public Course GetCourse(string id)
@@ -102,7 +121,6 @@ namespace pillApp.Services
         public List<Reception> GetReceptionsByDate(DateTime date)
         {
             date = date.Date;
-            var receptions = database.Table<Reception>().ToList();
             var times = database.Table<Reception>().Where(
                 x => x.ClearDate == date).ToList();
             return times;
@@ -181,9 +199,15 @@ namespace pillApp.Services
             var recCount = 0;
             var date = updatedFromDate.Date;
             var courseStart = course.StartDate.Date;
-            database.Table<Reception>().Where(
-                x => (x.CourseID == courseID) && (((x.DateTime >= date) || (x.DateTime < courseStart)))
-            ).Delete();
+            {
+                var receptions = database.Table<Reception>().Where(
+                    x => (x.CourseID == courseID) && (((x.DateTime >= date) || (x.DateTime < courseStart)))
+                );
+                foreach (var rec in receptions)
+                {
+                    DeleteReception(rec);
+                }
+            }
             DateTime lastDay = course.StartDate.Date;
             var oldRecs = database.Table<Reception>()
                 .Where(x => x.CourseID == courseID)
@@ -243,14 +267,16 @@ namespace pillApp.Services
                 for (var i = 0; i < recTimes.Count && recCount > 0; ++i)
                 {
                     DateTime newRecTime = lastDay.Date + recTimes[i];
-                    database.Insert(new Reception
+                    var newRec = new Reception
                     {
                         ID = Guid.NewGuid().ToString(),
                         CourseID = course.ID,
                         DateTime = newRecTime,
                         ClearDate = newRecTime.Date,
                         isAccepted = newRecTime < DateTime.Now,
-                    });
+                    };
+                    NotificationSystem.Instance.CreateNotification(newRec);
+                    database.Insert(newRec);
                     --recCount;
                 }
                 if (recCount > 0)
@@ -260,6 +286,49 @@ namespace pillApp.Services
             }
             // last fetched day (usefull only for endless)
             return lastDay;
+        }
+        public int GetNotificationIDByReceptionID(string id)
+        {
+            var notifications = database.Table<Notification>()
+                .Where(x => x.ReceptionID == id).ToList();
+            if (notifications.Count == 0)
+            {
+                return -1;
+            }
+            return notifications[0].ID;
+        }
+        public string GetReceptionIDByNotificationID(int id)
+        {
+            var receptions = database.Table<Notification>()
+                .Where(x => x.ID == id).ToList();
+            if (receptions.Count == 0)
+            {
+                return string.Empty;
+            }
+            return receptions[0].ReceptionID;
+        }
+        public Reception GetReceptionByID(string id)
+        {
+            return database.Get<Reception>(id);
+        }
+        private void DeleteReception(Reception rec)
+        {
+            NotificationSystem.Instance.CancelNotification(rec);
+            database.Delete<Reception>(rec.ID);
+            foreach (var notification in database.Table<Notification>()
+                                            .Where(x => x.ReceptionID == rec.ID)
+                                            .ToList())
+            {
+                DeleteNotification(notification.ID);
+            }
+        }
+        public void AddNotification(Notification notification)
+        {
+            database.Insert(notification);
+        }
+        public void DeleteNotification(int id)
+        {
+            database.Delete<Notification>(id);
         }
     }
 }

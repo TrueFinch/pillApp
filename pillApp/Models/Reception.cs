@@ -5,6 +5,15 @@ using System.Text;
 
 namespace pillApp.Models
 {
+    [Table("Notifications")]
+    public class Notification
+    {
+        [PrimaryKey]
+        public int ID { get; set; }
+        public string ReceptionID { get; set; }
+        //public int LeftRepeat { get; set; }
+    }
+
     [Table("ReceptionsTimes")]
     public class ReceptionsTime
     {

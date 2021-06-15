@@ -19,10 +19,12 @@ namespace pillApp.ViewModels
     {
         public Command EditCourseCommand { get; set; }
         public Command AddCourseCommand { get; set; }
+        public Command DeleteCourseCommand { get; set; }
         public EditCourseViewModel()
         {
             EditCourseCommand = new Command(OnPressEdit);
             AddCourseCommand = new Command(OnSaveCourseAsync);
+            DeleteCourseCommand = new Command(OnDeleteCourse);
             ReceptionTimePickers = new ObservableCollection<ReceptionTimePicker>();
             ReceptionCountInDay = "1";
         }
@@ -350,7 +352,11 @@ namespace pillApp.ViewModels
             }
 
         }
-
+        private async void OnDeleteCourse()
+        {
+            dataStore.DeleteCourse(_courseID);
+            await Shell.Current.GoToAsync("../..");
+        }
         private async void OnSaveCourseAsync()
         {
             var times = new List<TimeSpan>();
@@ -368,7 +374,6 @@ namespace pillApp.ViewModels
                 var course = GetCourse();
                 dataStore.UpdateCourse(course, times);
             }
-            // код создания экземпляра класса Course и его добавление в табличку
             await Shell.Current.GoToAsync("../..");
         }
 

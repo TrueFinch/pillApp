@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using pillApp.Models;
 using pillApp.Views;
+using Plugin.LocalNotification;
 using Xamarin.Forms;
 
 namespace pillApp.ViewModels
@@ -17,7 +18,7 @@ namespace pillApp.ViewModels
         public Command LoadCoursesCommand { get; }
         public Command AddCourseCommand { get; }
         public Command<Course> CourseTapped { get; }
-
+        public Command DebugNotifyCommand { get; }
         public CoursesViewModel()
         {
             Title = "Курсы";
@@ -25,6 +26,23 @@ namespace pillApp.ViewModels
             LoadCoursesCommand = new Command(async () => ExecuteLoadCoursesCommand());
             AddCourseCommand = new Command(OnAddCourse);
             CourseTapped = new Command<Course>(OnCourseSelected);
+            DebugNotifyCommand = new Command(() =>
+            {
+                var notification = new NotificationRequest
+                {
+                    NotificationId = -666,
+                    BadgeNumber = 1,
+                    Title = "Test",
+                    Description = "Notification",
+                    ReturningData = "",
+                    Schedule = new NotificationRequestSchedule
+                    {
+                        Repeats = NotificationRepeat.No,
+                        NotifyTime = DateTime.Now.AddSeconds(5)
+                    }
+                };
+                NotificationCenter.Current.Show(notification);
+            });
         }
 
         void ExecuteLoadCoursesCommand()

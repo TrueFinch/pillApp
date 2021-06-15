@@ -7,7 +7,8 @@
              xmlns:model="clr-namespace:pillApp.Models"
              x:Name="BrowseCoursesPage">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Command="{Binding AddCourseCommand}" />
+        <ToolbarItem Text="Debug notify" Command="{Binding DebugNotifyCommand}"/>
+	    <ToolbarItem Text="Add" Command="{Binding AddCourseCommand}"/>
     </ContentPage.ToolbarItems>
 
     <RefreshView x:DataType="local:CoursesViewModel"

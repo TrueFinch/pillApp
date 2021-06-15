@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="pillApp.Views.AlertPage">
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="Red">
+            <Label x:Name="TitleLabel"
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="CenterAndExpand"/>
+            <Label x:Name="Description"
+                   FontSize="Medium"
+                   FontAttributes="Bold"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="CenterAndExpand"/>
+            <Button Clicked="Button_Clicked"
+                    Text="Got it!!!"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

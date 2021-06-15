@@ -7,97 +7,99 @@
              x:Class="pillApp.Views.CourseDetailPage"
              Title="{Binding Title}">
 
-	<ContentPage.ToolbarItems>
-		<ToolbarItem x:Name="EditBtn"
-		             Text="Edit" 
-		             Command="{Binding EditCourseCommand}"/>
-	</ContentPage.ToolbarItems>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="EditBtn"
+                     Text="Edit" 
+                     Command="{Binding EditCourseCommand}"/>
+        <ToolbarItem Text="Delete"
+                     Command="{Binding DeleteCourseCommand}"/>
+    </ContentPage.ToolbarItems>
     <StackLayout Spacing="20"
                  Padding="15">
-		<StackLayout Orientation="Horizontal">
-			<Label Text="Course name: "
-				   FontSize="Medium"/>
-			<Label Text="{Binding Name}"
-			       FontSize="Medium" />
-		</StackLayout>
-	    <StackLayout Orientation="Horizontal">
-		    <Label Text="Description: "
-		           FontSize="Medium"/>
-		    <Label Text="{Binding Description}"
-		           FontSize="Small"/>
-	    </StackLayout>
         <StackLayout Orientation="Horizontal">
-	        <Label Text="Start date: "
-	               FontSize="Medium"
-	               VerticalOptions="Center"/>
-	        <DatePicker Date="{Binding StartDate}"
-	                    IsEnabled="False"/>
+            <Label Text="Course name: "
+                   FontSize="Medium"/>
+            <Label Text="{Binding Name}"
+                   FontSize="Medium" />
         </StackLayout>
         <StackLayout Orientation="Horizontal">
-	        <Label Text="Course type: "
-	               FontSize="Medium"/>
-	        <Label Text="{Binding CourseType}"
-	               FontSize="Medium"/>
+            <Label Text="Description: "
+                   FontSize="Medium"/>
+            <Label Text="{Binding Description}"
+                   FontSize="Medium"/>
         </StackLayout>
         <StackLayout Orientation="Horizontal">
-	        <Label Text="Food dependency: "
-	               FontSize="Medium"/>
+            <Label Text="Start date: "
+                   FontSize="Medium"
+                   VerticalOptions="Center"/>
+            <DatePicker Date="{Binding StartDate}"
+                        IsEnabled="False"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Course type: "
+                   FontSize="Medium"/>
+            <Label Text="{Binding CourseType}"
+                   FontSize="Medium"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Food dependency: "
+                   FontSize="Medium"/>
             <Label Text="{Binding FoodDependency}"
                    FontSize="Medium"/>
         </StackLayout>
         <StackLayout Orientation="Horizontal">
-	        <Label Text="Course frequency: "
-	               FontSize="Medium"/>
+            <Label Text="Course frequency: "
+                   FontSize="Medium"/>
             <Label Text="{Binding CourseFreq}"
                    FontSize="Medium"/>
         </StackLayout>
         <StackLayout IsVisible="{Binding IsFreqNotEveryday}"
                      Orientation="Horizontal">
-	        <Label Text="N = "
-	               FontSize="Medium"/>
-	        <Label Text="{Binding CourseFreqDays}"
-	               FontSize="Medium"/>
+            <Label Text="N = "
+                   FontSize="Medium"/>
+            <Label Text="{Binding CourseFreqDays}"
+                   FontSize="Medium"/>
         </StackLayout>
         <StackLayout Orientation="Horizontal">
-	        <Label Text="Course duration: "
-	               FontSize="Medium"/>
-	        <Label Text="{Binding CourseDuration}"
-	               FontSize="Medium"/>
+            <Label Text="Course duration: "
+                   FontSize="Medium"/>
+            <Label Text="{Binding CourseDuration}"
+                   FontSize="Medium"/>
         </StackLayout>
         <StackLayout IsVisible="{Binding IsDurationNotEndless}"
                      Orientation="Horizontal">
-	        <Label Text="N = "
-	               FontSize="Medium"/>
-	        <Label Text="{Binding Duration}"
-	               FontSize="Medium"/>
+            <Label Text="N = "
+                   FontSize="Medium"/>
+            <Label Text="{Binding Duration}"
+                   FontSize="Medium"/>
         </StackLayout>
         <StackLayout Orientation="Horizontal">
-	        <Label Text="Reception per day"
-	               FontSize="Medium"/>
-	        <Label Text="{Binding ReceptionCountInDay}"
-	               FontSize="Medium"/>
+            <Label Text="Reception per day"
+                   FontSize="Medium"/>
+            <Label Text="{Binding ReceptionCountInDay}"
+                   FontSize="Medium"/>
         </StackLayout>
         <CollectionView ItemsSource="{Binding ReceptionTimePickers}"
                         ItemsLayout="HorizontalList"
                         HeightRequest="60">
-	        <CollectionView.ItemTemplate>
-		        <DataTemplate>
-			        <StackLayout VerticalOptions="Center" 
-			                     x:DataType="local:ReceptionTimePicker"
-			                     BackgroundColor="AliceBlue"
-			                     Padding="5">
-				        <TimePicker Time="{Binding Time}"
-									IsEnabled="False"
-				                    VerticalOptions="CenterAndExpand"/>
-			        </StackLayout>
-		        </DataTemplate>
-	        </CollectionView.ItemTemplate>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout VerticalOptions="Center" 
+                                 x:DataType="local:ReceptionTimePicker"
+                                 BackgroundColor="AliceBlue"
+                                 Padding="5">
+                        <TimePicker Time="{Binding Time}"
+                                    IsEnabled="False"
+                                    VerticalOptions="CenterAndExpand"/>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
         </CollectionView>
         <StackLayout Orientation="Horizontal">
-	        <Label FontSize="Medium"
-	               Text="Value per reception: "/>
-	        <Label Text="{Binding ReceptionValue}"
-	               FontSize="Medium"/>
+            <Label FontSize="Medium"
+                   Text="Value per reception: "/>
+            <Label Text="{Binding ReceptionValue}"
+                   FontSize="Medium"/>
         </StackLayout>
     </StackLayout>
 </ContentPage>
