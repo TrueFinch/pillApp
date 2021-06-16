@@ -19,7 +19,7 @@ namespace pillApp.Services
                 if (_instance == null)
                 {
                     _instance = new CoursesDataStore();
-                    _instance.populateData();
+                    //_instance.populateData();
                 }
                 return _instance;
             }
