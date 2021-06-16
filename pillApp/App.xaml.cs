@@ -25,10 +25,10 @@ namespace pillApp
         private void OnLocalNotificationTapped(NotificationTappedEventArgs args)
         {
             //debug code
-            if (args.Request.NotificationId == -666)
-            {
-                return;
-            }
+            //if (args.Request.NotificationId == -666)
+            //{
+            //    return;
+            //}
             Device.BeginInvokeOnMainThread(() =>
             {
                 MainPage.Navigation.PushModalAsync(new AlertPage(args.Request.NotificationId));
@@ -37,10 +37,10 @@ namespace pillApp
         private void OnLocalNotificationReceived(NotificationReceivedEventArgs args)
         {
             //debug code
-            if (args.Request.NotificationId == -666)
-            {
-                return;
-            }
+            //if (args.Request.NotificationId == -666)
+            //{
+            //    return;
+            //}
             if (!isSleeping)
             {
                 Device.BeginInvokeOnMainThread(() =>

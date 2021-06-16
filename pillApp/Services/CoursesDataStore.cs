@@ -40,12 +40,12 @@ namespace pillApp.Services
             database.CreateTable<ReceptionsTime>();
             database.CreateTable<Notification>();
             //TODO comment it on release
-            _ = database.DeleteAll<Course>();
-            _ = database.DeleteAll<Reception>();
-            _ = database.DeleteAll<ReceptionsTime>();
-            _ = database.DeleteAll<Notification>();
+            //_ = database.DeleteAll<Course>();
+            //_ = database.DeleteAll<Reception>();
+            //_ = database.DeleteAll<ReceptionsTime>();
+            //_ = database.DeleteAll<Notification>();
             //
-            Debug.WriteLine("CoursesDataStore: Database inited!");
+            //Debug.WriteLine("CoursesDataStore: Database inited!");
         }
 
         public void AddCourse(Course item, List<TimeSpan> receptionTimes)

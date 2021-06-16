@@ -24,7 +24,7 @@ namespace pillApp.Services
         private NotificationSystem()
         {
             //TODO comment after debug
-            NotificationCenter.Current.CancelAll();
+            //NotificationCenter.Current.CancelAll();
         }
 
         public int CreateNotification(Reception rec, Course course)
