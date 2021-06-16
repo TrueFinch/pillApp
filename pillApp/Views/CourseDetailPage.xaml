@@ -14,70 +14,59 @@
         <ToolbarItem Text="Delete"
                      Command="{Binding DeleteCourseCommand}"/>
     </ContentPage.ToolbarItems>
+
+	<ContentPage.Resources>
+		<ResourceDictionary>
+			<Style BasedOn="{StaticResource MediumText}"
+			       TargetType="Label"></Style>
+		</ResourceDictionary>
+	</ContentPage.Resources>
+
     <StackLayout Spacing="20"
                  Padding="15">
         <StackLayout Orientation="Horizontal">
-            <Label Text="Course name: "
-                   FontSize="Medium"/>
-            <Label Text="{Binding Name}"
-                   FontSize="Medium" />
+            <Label Text="Course name: "/>
+            <Label Text="{Binding Name}"/>
         </StackLayout>
         <StackLayout Orientation="Horizontal">
-            <Label Text="Description: "
-                   FontSize="Medium"/>
-            <Label Text="{Binding Description}"
-                   FontSize="Medium"/>
+            <Label Text="Description: "/>
+            <Label Text="{Binding Description}"/>
         </StackLayout>
         <StackLayout Orientation="Horizontal">
             <Label Text="Start date: "
-                   FontSize="Medium"
                    VerticalOptions="Center"/>
             <DatePicker Date="{Binding StartDate}"
                         IsEnabled="False"/>
         </StackLayout>
         <StackLayout Orientation="Horizontal">
-            <Label Text="Course type: "
-                   FontSize="Medium"/>
-            <Label Text="{Binding CourseType}"
-                   FontSize="Medium"/>
+            <Label Text="Course type: "/>
+            <Label Text="{Binding CourseType}"/>
         </StackLayout>
         <StackLayout Orientation="Horizontal">
-            <Label Text="Food dependency: "
-                   FontSize="Medium"/>
-            <Label Text="{Binding FoodDependency}"
-                   FontSize="Medium"/>
+            <Label Text="Food dependency: "/>
+            <Label Text="{Binding FoodDependency}"/>
         </StackLayout>
         <StackLayout Orientation="Horizontal">
-            <Label Text="Course frequency: "
-                   FontSize="Medium"/>
-            <Label Text="{Binding CourseFreq}"
-                   FontSize="Medium"/>
+            <Label Text="Course frequency: "/>
+            <Label Text="{Binding CourseFreq}"/>
         </StackLayout>
         <StackLayout IsVisible="{Binding IsFreqNotEveryday}"
                      Orientation="Horizontal">
-            <Label Text="N = "
-                   FontSize="Medium"/>
-            <Label Text="{Binding CourseFreqDays}"
-                   FontSize="Medium"/>
+            <Label Text="N = "/>
+            <Label Text="{Binding CourseFreqDays}"/>
         </StackLayout>
         <StackLayout Orientation="Horizontal">
-            <Label Text="Course duration: "
-                   FontSize="Medium"/>
-            <Label Text="{Binding CourseDuration}"
-                   FontSize="Medium"/>
+            <Label Text="Course duration: "/>
+            <Label Text="{Binding CourseDuration}"/>
         </StackLayout>
         <StackLayout IsVisible="{Binding IsDurationNotEndless}"
                      Orientation="Horizontal">
-            <Label Text="N = "
-                   FontSize="Medium"/>
-            <Label Text="{Binding Duration}"
-                   FontSize="Medium"/>
+            <Label Text="N = "/>
+            <Label Text="{Binding Duration}"/>
         </StackLayout>
         <StackLayout Orientation="Horizontal">
-            <Label Text="Reception per day"
-                   FontSize="Medium"/>
-            <Label Text="{Binding ReceptionCountInDay}"
-                   FontSize="Medium"/>
+            <Label Text="Reception per day"/>
+            <Label Text="{Binding ReceptionCountInDay}"/>
         </StackLayout>
         <CollectionView ItemsSource="{Binding ReceptionTimePickers}"
                         ItemsLayout="HorizontalList"
@@ -96,10 +85,8 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
         <StackLayout Orientation="Horizontal">
-            <Label FontSize="Medium"
-                   Text="Value per reception: "/>
-            <Label Text="{Binding ReceptionValue}"
-                   FontSize="Medium"/>
+            <Label Text="Value per reception: "/>
+            <Label Text="{Binding ReceptionValue}"/>
         </StackLayout>
     </StackLayout>
 </ContentPage>

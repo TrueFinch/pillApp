@@ -7,6 +7,12 @@
              xmlns:model="clr-namespace:pillApp.Models"
              x:Name="BrowseReceptionsPage" 
              x:DataType="local:ReceptionsViewModel">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style BasedOn="{StaticResource MediumCentered}"
+                   TargetType="Label"></Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
             <DatePicker Date="{Binding CurrentDate}"
@@ -20,21 +26,14 @@
                         <DataTemplate>
                             <StackLayout Padding="10"
                                          x:DataType="local:ReceptionVisual">
-                                <Label Text="{Binding Course.Name}"
-                                       FontSize="Medium"/>
+                                <Label Text="{Binding Course.Name}"/>
                                 <StackLayout Orientation="Horizontal"
                                              Padding="5">
                                     <TimePicker Time="{Binding Model.DateTime.TimeOfDay}"
                                                 IsEnabled="False"/>
-                                    <Label Text="—"
-                                           FontSize="Medium"
-                                           VerticalOptions="Center"/>
-                                    <Label Text="{Binding Course.ReceptionValue}"
-                                           FontSize="Medium"
-                                           VerticalOptions="Center"/>
-                                    <Label Text="{Binding CourseType}"
-                                           FontSize="Medium"
-                                           VerticalOptions="Center"/>
+                                    <Label Text="—"/>
+                                    <Label Text="{Binding Course.ReceptionValue}"/>
+                                    <Label Text="{Binding CourseType}"/>
                                 </StackLayout>
                             </StackLayout>
                         </DataTemplate>
@@ -43,5 +42,4 @@
             </RefreshView>
         </StackLayout>
     </ContentPage.Content>
-    
 </ContentPage>

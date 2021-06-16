@@ -27,6 +27,17 @@
                     </VisualStateGroupList>
                 </Setter>
             </Style>
+            <Style x:Key="MediumText" 
+                   TargetType="Label">
+                <Setter Property="FontSize" 
+                        Value="Medium"></Setter>
+            </Style>
+            <Style x:Key="MediumCentered" 
+                   BasedOn="{StaticResource MediumText}"
+                   TargetType="Label">
+                <Setter Property="VerticalOptions" 
+                        Value="Center"></Setter>
+            </Style>
         </ResourceDictionary>        
     </Application.Resources>
 </Application>

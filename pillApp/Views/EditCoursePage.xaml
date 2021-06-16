@@ -12,6 +12,12 @@
                      Text="Save"
                      Command="{Binding AddCourseCommand}"/>
     </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style BasedOn="{StaticResource MediumCentered}"
+                   TargetType="Label"></Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Spacing="20"
@@ -24,32 +30,24 @@
                         FontSize="Medium"/>
                 <StackLayout Orientation="Horizontal"
                              IsVisible="{Binding IsNewCourse}">
-                    <Label Text="Start date: "
-                           FontSize="Medium"
-                           VerticalOptions="Center"/>
+                    <Label Text="Start date: "/>
                     <DatePicker Date="{Binding StartDate}"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
-                    <Label Text="Course type: "
-                           FontSize="Medium"
-                           VerticalOptions="Center"/>
+                    <Label Text="Course type: "/>
                     <Picker x:Name="CourseTypePicker"
                             Title="Course type"
                             ItemsSource="{Binding CourseTypes}"
                             SelectedIndex="{Binding CourseTypeSelectedIndex, Mode=TwoWay}"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
-                    <Label Text="Food dependency: "
-                           FontSize="Medium"
-                           VerticalOptions="Center"/>
+                    <Label Text="Food dependency: "/>
                     <Picker Title="Food dependency"
                             ItemsSource="{Binding FoodDepTypes}"
                             SelectedIndex="{Binding FoodDepSelectedIndex}"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
-                    <Label Text="Course frequency: "
-                           FontSize="Medium"
-                           VerticalOptions="Center"/>
+                    <Label Text="Course frequency: "/>
                     <Picker x:Name="CourseFreqPicker"
                             Title="Course frequency"
                             ItemsSource="{Binding CourseFreqs}"
@@ -58,9 +56,7 @@
                 </StackLayout>
                 <StackLayout IsVisible="{Binding IsFreqNotEveryday}"
                              Orientation="Horizontal">
-                    <Label FontSize="Medium"
-                           Text="N = "
-                           VerticalOptions="Center"/>
+                    <Label Text="N = "/>
                     <Entry Placeholder="0"
                            Text="{Binding CourseFreqDays, Mode=TwoWay}"
                            FontSize="Medium"
@@ -68,9 +64,7 @@
                            IsEnabled="{Binding IsNewCourse}"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
-                    <Label Text="Course duration: "
-                           FontSize="Medium"
-                           VerticalOptions="Center"/>
+                    <Label Text="Course duration: "/>
                     <Picker Title="Course duration"
                             ItemsSource="{Binding CourseDurationTypes}"
                             SelectedIndex="{Binding CourseDurationSelectedIndex, Mode=TwoWay}"
@@ -78,9 +72,7 @@
                 </StackLayout>
                 <StackLayout IsVisible="{Binding IsDurationNotEndless}"
                              Orientation="Horizontal">
-                    <Label FontSize="Medium"
-                           Text="N = "
-                           VerticalOptions="Center"/>
+                    <Label Text="N = "/>
                     <Entry Placeholder="1"
                            Text="{Binding Duration, Mode=TwoWay}"
                            FontSize="Medium"
@@ -88,9 +80,7 @@
                            IsEnabled="{Binding IsNewCourse}"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
-                    <Label Text="Reception per day"
-                           FontSize="Medium"
-                           VerticalOptions="Center"/>
+                    <Label Text="Reception per day"/>
                     <Entry Placeholder="1"
                            Text="{Binding ReceptionCountInDay}"
                            FontSize="Medium"
@@ -99,9 +89,7 @@
                            IsEnabled="{Binding IsNewCourse}"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
-                    <Label FontSize="Medium"
-                           Text="Value per reception: "
-                           VerticalOptions="Center"/>
+                    <Label Text="Value per reception: "/>
                     <Entry Placeholder="0"
                            Text="{Binding ReceptionValue, Mode=TwoWay}"
                            FontSize="Medium"
