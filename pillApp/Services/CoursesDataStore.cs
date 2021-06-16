@@ -62,8 +62,8 @@ namespace pillApp.Services
                     Time = time,
                 });
             }
-            database.Insert(item);
             InitReceptions(ref item);
+            database.Insert(item);
         }
 
         public void DeleteCourse(string id)
