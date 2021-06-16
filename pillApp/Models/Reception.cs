@@ -11,7 +11,6 @@ namespace pillApp.Models
         [PrimaryKey]
         public int ID { get; set; }
         public string ReceptionID { get; set; }
-        //public int LeftRepeat { get; set; }
     }
 
     [Table("ReceptionsTimes")]

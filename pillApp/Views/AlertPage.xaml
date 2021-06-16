@@ -8,12 +8,15 @@
                    FontSize="Large"
                    FontAttributes="Bold"
                    VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand"/>
+                   HorizontalOptions="CenterAndExpand"
+
+                   TextColor="White"/>
             <Label x:Name="Description"
                    FontSize="Medium"
                    FontAttributes="Bold"
                    VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand"/>
+                   HorizontalOptions="CenterAndExpand"
+                   TextColor="White"/>
             <Button Clicked="Button_Clicked"
                     Text="Got it!!!"/>
         </StackLayout>

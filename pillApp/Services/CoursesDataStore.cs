@@ -275,7 +275,12 @@ namespace pillApp.Services
                         ClearDate = newRecTime.Date,
                         isAccepted = newRecTime < DateTime.Now,
                     };
-                    NotificationSystem.Instance.CreateNotification(newRec);
+                    var notificationID = NotificationSystem.Instance.CreateNotification(newRec, course);
+                    AddNotification(new Notification
+                    {
+                        ID = notificationID,
+                        ReceptionID = newRec.ID,
+                    });
                     database.Insert(newRec);
                     --recCount;
                 }
@@ -313,7 +318,9 @@ namespace pillApp.Services
         }
         private void DeleteReception(Reception rec)
         {
-            NotificationSystem.Instance.CancelNotification(rec);
+            
+            var notificationID = GetNotificationIDByReceptionID(rec.ID);
+            NotificationSystem.Instance.CancelNotification(notificationID);
             database.Delete<Reception>(rec.ID);
             foreach (var notification in database.Table<Notification>()
                                             .Where(x => x.ReceptionID == rec.ID)

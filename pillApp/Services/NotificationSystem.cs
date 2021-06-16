@@ -9,7 +9,7 @@ namespace pillApp.Services
 {
     class NotificationSystem
     {
-        public CoursesDataStore dataStore => CoursesDataStore.Instance;
+        //public CoursesDataStore dataStore => CoursesDataStore.Instance;
         public static NotificationSystem Instance
         {
             get
@@ -27,15 +27,10 @@ namespace pillApp.Services
             NotificationCenter.Current.CancelAll();
         }
 
-        public void CreateNotification(Reception rec)
+        public int CreateNotification(Reception rec, Course course)
         {
-            var course = dataStore.GetCourse(rec.CourseID);
+            //var course = dataStore.GetCourse(rec.CourseID);
             var id = nextNotificationID++;
-            dataStore.AddNotification(new Notification
-            {
-                ID = id,
-                ReceptionID = rec.ID,
-            });
             NotificationCenter.Current.Show(new NotificationRequest
             {
                 NotificationId = id,
@@ -49,16 +44,7 @@ namespace pillApp.Services
                     NotifyAutoCancelTime = rec.DateTime + RepeatAfter * RepeatCount
                 }
             });
-        }
-
-        public void CancelNotification(Reception rec)
-        {
-            var notificationID = dataStore.GetNotificationIDByReceptionID(rec.ID);
-            if (notificationID == -1)
-            {
-                return;
-            }
-            NotificationCenter.Current.Cancel(notificationID);
+            return id;
         }
         public void CancelNotification(int notificationID)
         {
@@ -67,7 +53,7 @@ namespace pillApp.Services
 
         private static NotificationSystem _instance = new NotificationSystem();
         private static int nextNotificationID;
-        private static readonly TimeSpan RepeatAfter = new TimeSpan(0, 10, 0);
+        private static readonly TimeSpan RepeatAfter = new TimeSpan(0, 0, 10);
         private static readonly int RepeatCount = 3;
     }
 }
