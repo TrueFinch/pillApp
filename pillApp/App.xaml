@@ -38,6 +38,11 @@
                 <Setter Property="VerticalOptions" 
                         Value="Center"></Setter>
             </Style>
-        </ResourceDictionary>        
+            <Style x:Key="EntryStyle"
+                   TargetType="Entry">
+                <Setter Property="HorizontalOptions"
+                        Value="FillAndExpand"/>
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

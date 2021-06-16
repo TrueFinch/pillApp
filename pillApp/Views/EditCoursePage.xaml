@@ -16,6 +16,8 @@
         <ResourceDictionary>
             <Style BasedOn="{StaticResource MediumCentered}"
                    TargetType="Label"></Style>
+	        <Style BasedOn="{StaticResource EntryStyle}"
+	               TargetType="Entry"></Style>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
@@ -85,7 +87,6 @@
                            Text="{Binding ReceptionCountInDay}"
                            FontSize="Medium"
                            Keyboard="Numeric"
-                           MinimumWidthRequest="30"
                            IsEnabled="{Binding IsNewCourse}"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
