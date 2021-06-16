@@ -53,7 +53,7 @@ namespace pillApp.Services
 
         private static NotificationSystem _instance = new NotificationSystem();
         private static int nextNotificationID;
-        private static readonly TimeSpan RepeatAfter = new TimeSpan(0, 0, 10);
+        private static readonly TimeSpan RepeatAfter = new TimeSpan(0, 10, 0);
         private static readonly int RepeatCount = 3;
     }
 }
