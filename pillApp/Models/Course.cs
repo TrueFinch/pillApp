@@ -44,10 +44,12 @@ namespace pillApp.Models
         public eCourseFreq CourseFreq { get; set; }
         public eCourseDuration CourseDuration { get; set; }
         public eFoodDependency FoodDependency { get; set; }
+        //if CourseFreq == EVERY_N_DAY then this is N
         public int CourseFreqDays { get; set; }
         public int Duration { get; set; }
         public float ReceptionValue { get; set; }
         public DateTime StartDate { get; set; }
+        //Using only in case of ENDLESS LastDate for which receptions were created
         public DateTime LastFetchDate { get; set; }
     }
 }

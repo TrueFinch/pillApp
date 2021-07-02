@@ -19,7 +19,6 @@ namespace pillApp.Services
                 if (_instance == null)
                 {
                     _instance = new CoursesDataStore();
-                    //_instance.populateData();
                 }
                 return _instance;
             }
@@ -39,13 +38,6 @@ namespace pillApp.Services
             database.CreateTable<Reception>();
             database.CreateTable<ReceptionsTime>();
             database.CreateTable<Notification>();
-            //TODO comment it on release
-            //_ = database.DeleteAll<Course>();
-            //_ = database.DeleteAll<Reception>();
-            //_ = database.DeleteAll<ReceptionsTime>();
-            //_ = database.DeleteAll<Notification>();
-            //
-            //Debug.WriteLine("CoursesDataStore: Database inited!");
         }
 
         public void AddCourse(Course item, List<TimeSpan> receptionTimes)
@@ -91,7 +83,7 @@ namespace pillApp.Services
             var courses = database.Table<Course>().ToList();
             return courses;
         }
-
+        //must be called before update course in db
         public void UpdateCourse(Course item, List<TimeSpan> receptionTimes)
         {
             database.Table<ReceptionsTime>().Where(x => x.CourseID == item.ID).Delete();
@@ -121,49 +113,10 @@ namespace pillApp.Services
         public List<Reception> GetReceptionsByDate(DateTime date)
         {
             date = date.Date;
-            var times = database.Table<Reception>().Where(
-                x => x.ClearDate == date).ToList();
+            var times = database.Table<Reception>().Where(x => x.ClearDate == date).ToList();
             return times;
         }
-        private void populateData()
-        {
-            var course1 = new Course
-            {
-                Name = "Нурофен",
-                Description = "обезболвающее",
-                CourseType = eCourseType.PILL,
-                CourseFreq = eCourseFreq.EVERYDAY,
-                CourseDuration = eCourseDuration.N_DAYS,
-                FoodDependency = eFoodDependency.NO_MATTER,
-                CourseFreqDays = 2,
-                Duration = 10,
-                ReceptionValue = 1,
-                StartDate = DateTime.Now,
-                LastFetchDate = DateTime.Now,
-            };
-            AddCourse(course1, new List<TimeSpan>
-            {
-                new TimeSpan(8, 0, 0),
-                new TimeSpan(18, 0, 0),
-            });
-            var course2 = new Course
-            {
-                Name = "Боль",
-                Description = "Страдание",
-                CourseType = eCourseType.INJECTION,
-                CourseFreq = eCourseFreq.EVERYDAY,
-                CourseFreqDays = 1,
-                CourseDuration = eCourseDuration.ENDLESS,
-                FoodDependency = eFoodDependency.AFTER,
-                ReceptionValue = 100,
-                StartDate = DateTime.Now,
-                LastFetchDate = DateTime.Now,
-            };
-            AddCourse(course2, new List<TimeSpan>
-            {
-                new TimeSpan(12, 0, 0),
-            });
-        }
+        //must be called before update course in db
         public void FetchReceptions(Course course, DateTime fetchDate)
         {
             if (course.CourseDuration != eCourseDuration.ENDLESS)
@@ -239,7 +192,7 @@ namespace pillApp.Services
             }
             course.LastFetchDate = GenerateReceptions(course, lastDay, recCount, recTimes);
         }
-        //should be called on course creation
+        //should be called on course creation and before inserting it to db
         private void InitReceptions(ref Course course)
         {
             var recTimes = GetReceptionsTimes(course.ID);
